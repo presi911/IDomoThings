@@ -10,5 +10,5 @@ package nuevo;
  * @author Carolina
  */
 public class prueba2 {
-    
+  
 }
