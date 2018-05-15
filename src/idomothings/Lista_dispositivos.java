@@ -9,7 +9,6 @@ package idomothings;
  *
  * @author Carolina
  */
-public class Hola {
-   int num = 0;
-           
+public class Lista_dispositivos {
+    
 }

@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nuevo;
+package idomothings;
 
 /**
  *
  * @author Carolina
  */
-public class prueba2 {
-  
+public interface interface_dispositivo {
+       public void activar();
+     public void desactivar();
+      public void parametrizar();
+      public String getDispositivo();
 }
