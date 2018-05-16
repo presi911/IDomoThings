@@ -1,0 +1,299 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+PROYECTO-JUEGO.com_ -- emu8086 assembler version: 4.08  
+ 
+[ 10/02/2018  --  2:59:24 p.m. ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       
+[   2]        :                                       ORG 100h
+[   3]        :                                       
+[   4]        :                                       ;------CARATULA-------------------
+[   5]        :                                       
+[   6]    0100: B9 08 00                              MOV CX, 8H  ; fijamos el valor del contador en 8 que son los mensaje a imprimir
+[   7]    0103: BE 6C 02                              MOV SI, offset msj1  ; se calcula el offset donde se encuentra el primer mensaje de la caratula.
+[   8]    0106: B6 00                                 MOV DH, 0H; fijamos la fila
+[   9]    0108:                                       label1:
+[  10]    0108: B2 10                                 MOV DL, 10H  ;asignamos la columna
+[  11]    010A: B4 02                                 MOV AH, 2H  ; seleccionamos el tipo de interrupcion
+[  12]    010C: 52                                    PUSH DX  ; colocamos el valor de fila y columna en la pila
+[  13]    010D: CD 10                                 INT 10H  ; activamos la interrupcion para fijar el cursor
+[  14]    010F: 8B D6                                 MOV DX, SI ; colocamos en dx el valor del offset del mensaje 1
+[  15]    0111: B4 09                                 MOV AH, 9H  ; seleccionamos el tipo de interripcion
+[  16]    0113: CD 21                                 INT 21H  ; activamos la interrupcion.
+[  17]    0115: 83 C6 2E                              ADD SI, 2EH ; cambiamos el valor del offset para el siguiente mensaje
+[  18]    0118: 5A                                    POP DX  ; sacamos el valor de la pila de la fila y columna.
+[  19]    0119: 80 C6 01                              ADD DH, 1H  ; sumamos uno al numero de la fila
+[  20]    011C: E2 EA                                 loop label1 ; repetimos el proceso para los 8 mensajes de la caratula.
+[  21]        :                                       
+[  22]        :                                       ;-----------------------------
+[  23]        :                                       
+[  24]    011E: B8 00 B8                              MOV AX, 0B800h
+[  25]    0121: 8E D8                                 MOV DS, AX
+[  26]    0123: BD 04 00                              MOV BP, 4H
+[  27]        :                                       
+[  28]        :                                       ;------SUELO-Y-PAISAJE-----------
+[  29]        :                                       
+[  30]    0126: B6 0F                                 MOV DH, 0000_1111b  ;retorna a los colores primarios.
+[  31]        :                                       
+[  32]        :                                       ;--Suelo----------------------
+[  33]    0128: B8 80 0C                              MOV AX, 0C80H; guardamos en ax el segmento de la posicion en la memoria de video
+[  34]    012B: B9 50 00                              MOV CX, 50H  ; iniciamos el contador
+[  35]    012E: B6 0A                                 MOV DH, 0AH  ; selecciona el color de los elementos del suelo
+[  36]    0130:                                       label2:
+[  37]    0130: B2 CD                                 MOV DL, 0CDH ;seleccionamos caracter para imprimir el suelo
+[  38]    0132: 8B D8                                 MOV BX, AX ; guardamos el segmento de memoria seleccionado en bx para poder apuntar a ese segmento
+[  39]    0134: 89 17                                 MOV [BX], DX; colocamos los valores de dx en la direccion a donde apunta la pila
+[  40]    0136: 89 97 40 01                           MOV [BX+140H],DX; colocamos los valores de dx en la posicion de bx+140
+[  41]    013A: B2 B0                                 MOV DL, 0B0H ;seleccionamos segundo caracter
+[  42]    013C: 89 97 A0 00                           MOV [BX+0A0H], DX ; colocamos los valores del segundo caracter para imprimir en la pantalla
+[  43]    0140: 05 02 00                              ADD AX, 2H ; sumamos 2 para rellenar todos los espacios del camino
+[  44]    0143: E2 EB                                 LOOP label2 ; iniciamos el ciclo
+[  45]        :                                       
+[  46]        :                                       ;--Paisaje-----------------------
+[  47]    0145: B2 7C                                 MOV DL, '|' ; seleccionamos la figura que formara el paisaje
+[  48]    0147: B6 04                                 MOV DH, 04H  ; seleccionamos el color de la figura
+[  49]    0149: B9 45 00                              MOV CX, 45H   ; iniciamos el contador
+[  50]    014C: B8 00 05                              MOV AX, 500H  ; guardamos en ax el segmento de la memoria de video donde quiero imprimir
+[  51]    014F:                                       label3:
+[  52]    014F: 8B D8                                 MOV BX, AX   ; pasamos a bx el valor de ax para poder manejar el segmento de memoria
+[  53]    0151: 89 17                                 MOV [BX], DX ; colocamos en el segmento al que apunta bx las caracterisitcas a imprimir
+[  54]    0153: 05 0E 00                              ADD AX,0EH ;sumamos un valor en ax para que los asteriscos del paisaje se inserten en la pantalla
+[  55]    0156: E2 F7                                 LOOP label3 ; iniciamos el ciclo para imprimir colocar el paisaje.
+[  56]        :                                       
+[  57]        :                                       ;-----FIGURA DEL JUGADOR-----------
+[  58]        :                                       
+[  59]    0158: 1E                                    PUSH DS  ; colocamos en la pila el valor de ds
+[  60]    0159: 50                                    PUSH AX  ; colocamos en la pila el valor de ax donde finalizo la colocacion de los asteriscos del paisaje
+[  61]    015A: 53                                    PUSH BX  ; colocamos en la pila el valor de bx donde finalizo la colocacion de los asteriscos
+[  62]    015B: 55                                    PUSH BP  ; colocamos en la pila el valor del puntero base
+[  63]    015C: B0 01                                 MOV AL,1 ; modo de escritura
+[  64]    015E: B7 00                                 MOV BH,0 ; numero de pagina informacion necesaria para la interrupcion
+[  65]    0160: B3 0F                                 MOV BL,0FH; atributos del caracter
+[  66]    0162: B9 03 00                              MOV CX, 3H; numero de caracteres de la figura del jugador
+[  67]    0165: B2 29                                 MOV DL, 41 ; columna para imprimir la figura
+[  68]    0167: B6 13                                 MOV DH, 19 ; fila para imprimir la figura
+[  69]    0169: 0E                                    PUSH CS  ; colocamos el valor de cs en la pila.
+[  70]    016A: 07                                    POP ES   ; guardamos el ultimo valor de la pila en el registro es para poder imprimir
+[  71]    016B: BD DF 03                              MOV BP, offset msj10 ; movemos al puntero base la ubicacion del mensaje 10 donde se encuentra la figura
+[  72]    016E: B4 13                                 MOV AH, 13H ; selecionamos el tipo de interrupcion
+[  73]    0170: CD 10                                 INT 10H ; iniciamos la interrupcion
+[  74]    0172: 5D                                    POP BP ; sacamosde la pila el bp
+[  75]    0173: 5B                                    POP BX ; sacamos de la pila el valor de bx
+[  76]    0174: 58                                    POP AX   ; sacamos de la pila el valor de ax
+[  77]    0175: 1F                                    POP DS ; sacamos de la pila el valor de ds
+[  78]        :                                       
+[  79]        :                                       ;------OBSTACULOS------------------
+[  80]        :                                       
+[  81]    0176: B6 0F                                 MOV DH, 0FH  ; atributo de la figura
+[  82]    0178: B2 B2                                 MOV DL, 0B2H  ; atriburo de la figura
+[  83]    017A: BF 20 00                              MOV DI, 20H ; figura obstaculo
+[  84]    017D: B9 10 00                              MOV CX, 10H ; guardamos el valor de 10h en cx
+[  85]        :                                       
+[  86]    0180:                                       label5:
+[  87]    0180: 51                                    PUSH CX  ; colocamos el valor de cx en la pila
+[  88]    0181: B8 E0 0B                              MOV AX, 0BE0H;colocamos la ubicacion donde imprimir los bloques
+[  89]    0184: B9 50 00                              MOV CX, 50H ; numero de cuenta para el ciclo label5
+[  90]    0187: B6 0C                                 MOV DH, 0CH ;atributo de la figura
+[  91]        :                                       
+[  92]        :                                       ;--Desplazamiento del bloque-------
+[  93]    0189:                                       label4:
+[  94]    0189: 8E C1                                 MOV ES,CX ;colocamos el valor de cx en es
+[  95]    018B: 8B D8                                 MOV BX, AX; el valor de ax se guarda en bx para el manejo de los segmentos
+[  96]    018D: 89 17                                 MOV [BX], DX ; el valor de dx se guarda en la posicion donde apunta bx
+[  97]    018F: 89 7F FE                              MOV [BX-2], DI ; se imprime el obstaculo 1
+[  98]        :                                       
+[  99]        :                                       ;--segundo bloque--------
+[ 100]    0192: 83 F9 3E                              CMP CX,3EH ; compara el valor de cx con 3eh
+[ 101]    0195: 7C 02                                 JL bloque2  ; si es menor salta al procedimiento bloque2
+[ 102]    0197: EB 06                                 JMP exit4  ; salta directamente al procedimiento exit4
+[ 103]    0199:                                       bloque2:
+[ 104]    0199: 89 57 E0                              MOV [BX-20H], DX ; el valor de dx se guarda en la posicion donde apunta bx-20
+[ 105]    019C: 89 7F DE                              MOV [BX-22H], DI ; se imprime el obstaculo 2
+[ 106]    019F:                                       exit4:
+[ 107]        :                                       
+[ 108]    019F: 83 F9 01                              CMP CX,01H ; compara el valor de cx con 01h
+[ 109]    01A2: 74 02                                 JE sige; si es igual salta al procedimiento je
+[ 110]    01A4: EB 11                                 JMP exit6; salta al procedimiento exit6
+[ 111]    01A6:                                       sige:
+[ 112]    01A6: B9 11 00                              MOV CX,11h ; inicia el contador
+[ 113]    01A9:                                       label7:
+[ 114]    01A9: 89 57 E0                              MOV [BX-20H], DX ; guarda el valor de dx en la posicion a la que apunta bx-20
+[ 115]    01AC: 89 7F DE                              MOV [BX-22H], DI ; se imprime el obstaculo 2
+[ 116]    01AF: 83 C3 02                              ADD BX,2  ; cambia la posicion
+[ 117]    01B2: E2 F5                                 LOOP label7  ;inicia el contador
+[ 118]    01B4: 80 C2 02                              ADD DL,2H  ; cambia el valor de dl para cambiar la figura
+[ 119]    01B7:                                       exit6:
+[ 120]        :                                       
+[ 121]    01B7: 52                                    PUSH DX; guarda dx en la pila
+[ 122]    01B8: 53                                    PUSH BX ; guarda bx en la pila
+[ 123]    01B9: 50                                    PUSH AX ; guarda ax en la pila
+[ 124]    01BA: 1E                                    PUSH DS ; guarda ds en la pila
+[ 125]    01BB: 06                                    PUSH ES ; guarda es en la pila
+[ 126]    01BC: 57                                    PUSH DI ; guarda di en la pila
+[ 127]        :                                       
+[ 128]        :                                       ;--ENTER--Salida del juego-------
+[ 129]        :                                       
+[ 130]    01BD: 50                                    PUSH AX   ; saca el valor de la pila de ax
+[ 131]    01BE: A3 00 30                              MOV [3000H], AX  ; mueve el valor de la pila al posicion 3000h
+[ 132]    01C1: B4 01                                 MOV AH,1H  ; selecciona la interrupcion para saber si hay pulsaciones del teclado
+[ 133]    01C3: CD 16                                 INT 16H ; inicia la interrupcion
+[ 134]        :                                       
+[ 135]    01C5: 75 02                                 JNE teclado  ; salta si es diferente que el pulso del teclado
+[ 136]        :                                       
+[ 137]    01C7: EB 02                                 JMP exit ; salta directamente al procedimiento exit
+[ 138]        :                                       
+[ 139]    01C9:                                       teclado:
+[ 140]    01C9: B4 00                                 MOV AH,0 ; cambia a 0 el valor de ah
+[ 141]    01CB:                                       exit:
+[ 142]        :                                       
+[ 143]    01CB: 3D 53 00                              CMP AX,53H ; compara el valor de ax con S
+[ 144]    01CE: 74 02                                 JE salir  ; si es igual salta al procedimiento
+[ 145]    01D0: EB 02                                 JMP exit3 ; salta directamente al procedimiento exit3
+[ 146]    01D2:                                       salir:
+[ 147]    01D2: CD 20                                 INT 20H ;Interrupcion salida del programa
+[ 148]    01D4:                                       exit3:
+[ 149]        :                                       
+[ 150]        :                                       ;-----SALTOS DE LA FIGURA-----------
+[ 151]        :                                       
+[ 152]    01D4: 3D 20 00                              CMP AX,20H  ; comparamos el en ax el valor en codigo ascii de la tecla espacio
+[ 153]    01D7: 74 02                                 JE labelje1 ;si es igual a espacio saltamos al procedimiento labelje1
+[ 154]    01D9: EB 3C                                 jmp exit1  ;salta directamente al procedimiento exit1
+[ 155]        :                                       
+[ 156]    01DB:                                       labelje1:
+[ 157]    01DB: 55                                    PUSH BP; colocamos el valor del puntero base en la pila
+[ 158]    01DC: 8B 2E 00 30                           MOV BP, [3000H] ; lo que se encuentra en la posicion 3000h se guarda en el puntero base
+[ 159]    01E0: 83 C5 08                              ADD BP, 08H; al puntero base le sumamos 08h
+[ 160]    01E3: 89 2E 00 20                           MOV [2000H], BP ; lo que esta en el puntero base se guarda en la direccion 2000h
+[ 161]        :                                       ;--Se borra la figura de la posicion-
+[ 162]    01E7: B0 01                                 MOV AL,1  ; modo de escritura
+[ 163]    01E9: B7 00                                 MOV BH,0  ; numero de pagina necesario para la interrupcion
+[ 164]    01EB: B3 0F                                 MOV BL,0FH ; atriburo de la figura
+[ 165]    01ED: B9 03 00                              MOV CX, 3H ; numero de caracteres de la figura
+[ 166]    01F0: B2 29                                 MOV DL, 41 ;numero de columna
+[ 167]    01F2: B6 13                                 MOV DH, 19 ;numero de fila
+[ 168]    01F4: BD DC 03                              MOV BP, offset msj9 ; colocamos en vez de la figura espacios en blanco
+[ 169]    01F7: B4 13                                 MOV AH, 13H; tipo de interrupcion
+[ 170]    01F9: CD 10                                 INT 10H; inicia la interrupcion
+[ 171]        :                                       ;--Salta la figura a la linea de arriba--
+[ 172]    01FB: B0 01                                 MOV AL,1 ; modo de escritura
+[ 173]    01FD: B7 00                                 MOV BH,0 ; numero de pagina necesario para la interrupcion
+[ 174]    01FF: B3 0F                                 MOV BL,0FH ; atributo de la figura;
+[ 175]    0201: B9 03 00                              MOV CX, 3H ; numero de caracteres de la figura
+[ 176]    0204: B2 29                                 MOV DL, 41 ; numero de columna
+[ 177]    0206: B6 12                                 MOV DH, 18 ; numero de fila
+[ 178]    0208: 0E                                    PUSH CS  ; colocamos en la pila el contenido de cs
+[ 179]    0209: 07                                    POP ES  ; guardamos el contenido de cs colocado en la pila en es
+[ 180]    020A: BD DF 03                              MOV BP, offset msj10 ; seleccionamos la figura para que se vuelva a imprimir
+[ 181]    020D: B4 13                                 MOV AH, 13H; seleccionamos la interrupcion
+[ 182]    020F: CD 10                                 INT 10H ; iniciamos la interrupcion
+[ 183]    0211: 5D                                    POP BP ; sacamos el valor del puntero base de la pila
+[ 184]        :                                       
+[ 185]        :                                       ;--borra buffer del teclado------------
+[ 186]    0212: B8 00 0C                              mov ax ,0C00h;
+[ 187]    0215: CD 21                                 int 21h
+[ 188]        :                                       
+[ 189]        :                                       ;--Retorno a la posicion inicial-------
+[ 190]    0217:                                       exit1:
+[ 191]        :                                       
+[ 192]    0217: B8 00 0C                              mov ax ,0C00h;;tipo de interrupcion para borrar el buffer del teclado e iniciar otra lectura
+[ 193]    021A: CD 21                                 int 21h; inicia la interrupcion
+[ 194]        :                                       
+[ 195]    021C: 58                                    POP AX; sacamos el valor de la pila y lo guardamos en el registro ax
+[ 196]        :                                       
+[ 197]    021D: 8B 1E 00 20                           MOV BX, [2000H]; colocamos lo que se encuentra en la posicion 2000h dentro del registro bx
+[ 198]    0221: 3B C3                                 CMP AX, BX ; comparamos ax y bx
+[ 199]    0223: 74 02                                 JE labelje2 ;si son iguales pasa al procedimiento labelje2
+[ 200]    0225: EB 2C                                 JMP exit2 ;salta directamente al procedimiento exit2
+[ 201]        :                                       
+[ 202]    0227:                                       labelje2:
+[ 203]    0227: 55                                    PUSH BP ; guardamos el puntero base en la pila
+[ 204]        :                                       ;--se borra la figura de la posicion-----
+[ 205]    0228: B0 01                                 MOV AL,1 ; modo de escritura
+[ 206]    022A: B7 00                                 MOV BH,0 ; numero de pagina necesaria para la interrupcion
+[ 207]    022C: B3 0F                                 MOV BL,0FH; atributos de la figura
+[ 208]    022E: B9 03 00                              MOV CX, 3H ; numero de caracteres a imprimir
+[ 209]    0231: B2 29                                 MOV DL, 41 ; numero de columna
+[ 210]    0233: B6 12                                 MOV DH, 18 ; numero de fila
+[ 211]    0235: BD DC 03                              MOV BP, offset msj9; seleccionamos el mensaje9 que es un espacio
+[ 212]    0238: B4 13                                 MOV AH, 13H ; seleccionamos el tipo de interrupcion
+[ 213]    023A: CD 10                                 INT 10H ; iniciamos la interrupcion
+[ 214]        :                                       ;--Baja la figura a la posicion inicial--
+[ 215]    023C: B0 01                                 MOV AL,1; modo de escritura
+[ 216]    023E: B7 00                                 MOV BH,0; numero de pagina necesaria para la interrupcion
+[ 217]    0240: B3 0F                                 MOV BL,0FH ; atributos de la figura
+[ 218]    0242: B9 03 00                              MOV CX, 3H ; numero de caracteres a imprimir
+[ 219]    0245: B2 29                                 MOV DL, 41; numero de columna
+[ 220]    0247: B6 13                                 MOV DH, 19; numero de fila
+[ 221]    0249: 0E                                    PUSH CS ; colocamos en la pila el valor de cs
+[ 222]    024A: 07                                    POP ES   ; guardamos el valor de cs que se almaceno en la pila y lo colocamos en es
+[ 223]    024B: BD DF 03                              MOV BP, offset msj10 ; guardamos la posicion del mensaje donde se encuentra la figura en en puntero base
+[ 224]    024E: B4 13                                 MOV AH, 13H ; seleccionamos la interrupcion
+[ 225]    0250: CD 10                                 INT 10H  ; iniciamos la interrupcion
+[ 226]    0252: 5D                                    POP BP; sacamos el valor del puntero base que se almaceno en la pila
+[ 227]    0253:                                       exit2:
+[ 228]        :                                       
+[ 229]        :                                       
+[ 230]    0253: 5F                                    POP DI; saca el valor de la pila y lo almacena en di
+[ 231]    0254: 07                                    POP ES ; saca el siguiente valor de la pila y lo guarda en es
+[ 232]    0255: 8C C1                                 MOV CX,ES ; guarda el valor de es en cx
+[ 233]    0257: 1F                                    POP DS ; guarda el proximo valor de la pila en ds
+[ 234]    0258: 58                                    POP AX ; guarda el proximo valor de la pila en ax
+[ 235]    0259: 5B                                    POP BX ; guarda el proximo valor de la pila en bx
+[ 236]    025A: 5A                                    POP DX ; guarda el proximo valor de la pila en dx
+[ 237]    025B: 05 02 00                              ADD AX, 2H; suma 2h a ax
+[ 238]    025E: 49 E3 03 E9 25 FF                     LOOP label4 ; inicio del ciclo
+[ 239]        :                                       
+[ 240]    0264: 59                                    POP CX ; saca el valor de la pila de cx
+[ 241]    0265: 49 E3 03 E9 15 FF                     LOOP label5 ; inicio del ciclo
+[ 242]        :                                       
+[ 243]    026B: C3                                    RET ; retorno
+[ 244]        :                                       
+[ 245]    026C: CE CD CD CD CD CD CD CD CD CD CD CD   msj1  DB 'ฮอออออออออออออออออออออฯอออออออออออออออออออออฮ$'
+                CD CD CD CD CD CD CD CD CD CD CF CD 
+                CD CD CD CD CD CD CD CD CD CD CD CD 
+                CD CD CD CD CD CD CD CD CE 24       
+[ 246]    029A: BA 20 20 20 20 20 20 20 20 20 20 20   msj2  DB 'บ               Esta para un 5              บ$'
+                20 20 20 20 45 73 74 61 20 70 61 72 
+                61 20 75 6E 20 35 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 BA 24       
+[ 247]    02C8: BA 20 20 20 20 20 20 20 20 20 20 20   msj3  DB 'บ                                           บ$'
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 BA 24       
+[ 248]    02F6: BA 20 20 20 20 20 20 20 3E 3E 3E 20   msj4  DB 'บ       >>> Poyecto Arquitectura <<<        บ$'
+                50 6F 79 65 63 74 6F 20 41 72 71 75 
+                69 74 65 63 74 75 72 61 20 3C 3C 3C 
+                20 20 20 20 20 20 20 20 BA 24       
+[ 249]    0324: BA 20 20 DA DB D9 20 AF AF 20 20 20   msj5  DB 'บ  ฺÛู ฏฏ     Juan David Moreno             บ$'
+                20 20 4A 75 61 6E 20 44 61 76 69 64 
+                20 4D 6F 72 65 6E 6F 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 BA 24       
+[ 250]    0352: BA 20 20 20 20 AF AF 20 20 20 20 20   msj6  DB 'บ    ฏฏ       Mateo Ospina Lopez            บ$'
+                20 20 4D 61 74 65 6F 20 4F 73 70 69 
+                6E 61 20 4C 6F 70 65 7A 20 20 20 20 
+                20 20 20 20 20 20 20 20 BA 24       
+[ 251]    0380: C8 CD CD CD CD CD CD CD CD CD CD CD   msj7  DB 'ศอออออออออออออออออออออออออออออออออออออออออออผ$'
+                CD CD CD CD CD CD CD CD CD CD CD CD 
+                CD CD CD CD CD CD CD CD CD CD CD CD 
+                CD CD CD CD CD CD CD CD BC 24       
+[ 252]    03AE: 50 72 65 73 69 6F 6E 65 20 74 65 63   msj8  DB 'Presione tecla ALT para pausar y S para salir$'
+                6C 61 20 41 4C 54 20 70 61 72 61 20 
+                70 61 75 73 61 72 20 79 20 53 20 70 
+                61 72 61 20 73 61 6C 69 72 24       
+[ 253]    03DC: 20 20 20                              msj9  DB '   '
+[ 254]    03DF: DA DB D9                              msj10  DB 'ฺÛู'
+[ 255]        :                                       
+[ 256]        :                                       
+[ 257]        :                                       
+ 
+===================================================================================================
+ 
+
+
+
+
+===================================================================================================

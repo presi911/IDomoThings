@@ -1,0 +1,321 @@
+
+org 100h ; inicio de programa
+include 'emu8086.inc' ;Incluye funciones de libreria emu8086
+DEFINE_SCAN_NUM
+DEFINE_PRINT_STRING
+DEFINE_PRINT_NUM
+DEFINE_PRINT_NUM_UNS
+
+mov si, 0
+mov al, 0
+
+;Convertir primera cadena a numero
+cadAnum:
+cmp cad1[si], "$" ; Compara el signo de la cadena
+jz seguir        ; Hace un salto a seguir
+mov bl, 10
+mul bl
+sub cad1[si], '0'
+add al, cad1[si]
+
+inc si           ;Incrementa Si
+loop cadAnum      ; Vuelve y llama la funcion
+
+seguir:
+mov aux1, al
+;Convertir segunda cadena a numero
+mov si, 0
+mov al, 0
+cadAnum2:
+cmp cad3[si], "$"
+jz seguir2
+
+mov bl, 10
+mul bl
+sub cad3[si], '0'
+add al, cad3[si]
+
+inc si
+loop cadAnum2
+
+seguir2:
+mov bl, al
+mov al, aux1
+
+;realizar operaciones normalmente teniendo ya los dos numeros decimales
+cmp cad2, "-"
+jz resta
+cmp cad2, "+"
+jz suma
+cmp cad2, "*"
+jz multi
+cmp cad2, "/"
+jz divi
+
+
+resta:
+sub al, bl
+jmp fin
+suma:
+add al, bl
+jmp fin
+multi:
+mul bl
+jmp fin
+divi:
+div bl
+jmp fin
+
+
+fin:
+
+mov bx, ax
+mov ah,09
+lea dx,msg
+int 21h
+mov ax, bx
+call PRINT_NUM
+mov num,al
+cmp cad4,"b"
+jz bina
+cmp cad4,"o"
+jz oct
+
+cmp cad4,"h"
+call hexa
+
+bina:
+mov bandera,2  ; Divisor si es binario
+jmp final
+
+oct:
+mov bandera,8  ; Divisor si es octal
+jmp final
+
+final:
+mov ah,02h   ;Imprimimos signo de igual
+mov dl,"="
+int 21h
+mov SI,7     ;Comienzan los ciclos de división
+bin:         ;Uso de etiqueta
+
+mov Ah,00h ;Aseguramos residuo de 0
+mov Al,num
+mov Bl,bandera
+div Bl
+mov var1,Ah
+mov num,Al
+
+mov dl,var1
+add dl,30h
+
+mov cad[SI],dl ;Concatenamos resultados
+
+cmp num,1 ;Hacemos comparación
+dec SI
+jne bin   ;Indicamos volver a etiqueta bin o:
+je salida   ;Ir a etiqueta salir
+
+
+
+cmp num,0 ;Comparación con 0
+jne bin
+je salida
+
+
+salida:          ;Etiqueta de salida
+
+mov dl,num ;Proceso para imprimir cadena final con número binario
+add dl,30h
+
+mov cad[SI],dl
+
+mov ah,09h
+lea Dx,cad
+int 21h
+
+
+
+ret                 ;Finaliza el programa principal
+
+cad1 db "6$"
+cad2 db "/"
+cad3 db "2$"
+aux1 db ?
+cad4 db "h"
+aux2 dw ?
+
+msg db "$"
+bandera db ?
+
+
+cad  db 9 dup (' '),'$'
+var1 db ?
+num  db ?
+aux  db ?
+
+
+hexa proc
+mov ah,02h   ;Imprimimos signo de igual
+mov dl,"="
+int 21h
+mov SI,7     ;Comienzan los ciclos de división
+bin2:         ;Uso de etiqueta
+
+mov Ah,00h ;Aseguramos residuo de 0
+mov Al,num
+mov Bl,2
+div Bl
+mov var1,Ah
+mov num,Al
+
+mov dl,var1
+add dl,30h
+
+mov cad[SI],dl;Concatenamos resultados
+
+cmp num,1 ;Hacemos comparación
+dec SI
+jne bin2   ;Indicamos volver a etiqueta bin o:
+je salida2   ;Ir a etiqueta salir
+
+
+
+cmp num,0 ;Comparación con 0
+jne bin2
+je salida2
+
+
+salida2:          ;Etiqueta de salida
+
+mov dl,num ;Proceso para imprimir cadena final con número binario
+add dl,30h
+
+mov cad[SI],dl
+
+.model smal
+.data
+
+
+
+
+digito1 db 00h
+digito2 db 00h
+digito3 db 00h
+.stack
+.code
+dar:
+mov ax,@data
+mov ds,ax
+mov digito1,00h
+mov digito2,00h
+mov digito3,00h
+
+
+
+mov si,0
+leer:
+sub cad[si],30h
+
+je continua
+
+
+
+continua:
+inc si
+cmp si,7d;mientras los digitos introducidos sean menores o iguales a 7 seguira leyendo
+jbe leer;Si ya leyo el digito 8 calcula
+
+
+sub si,1;Decrementa 1 (el dato que incrementamos en la condicion anterior)
+calcula:
+;inicia el calculo de los primeros 4 bits
+mov ax,01h
+push ax
+mov cx,4
+pot1:
+mul cad[si]
+add digito1,al
+dec si
+pop ax
+mov bx,0002h
+mul bx
+push ax
+loop pot1
+;finaliza calculo de los primeros 4bits
+;inicia el calculo de los segundos 4 bits
+mov ax,01h
+push ax
+mov cx,4
+pot2:
+mul cad[si]
+add digito2,al
+dec si
+pop ax
+mov bx,0002h
+mul bx
+push ax
+loop pot2
+;finaliza calculo de los segundos 4bits
+mov dl,digito3;convertimos el digito 3 a ascci
+call numero
+mov digito3,dl
+;convertimos el segundo digito a ascci
+mov dl,digito2
+cmp dl,0Ah
+jae c1;si es mayor a 10 lo convertimos a letra sino a numero
+call numero
+jmp f1
+c1:
+call letra
+f1:
+mov digito2,dl
+;fin de la conversion
+;convertimos el ultimo digito a ascci
+mov dl,digito1
+cmp dl,0Ah
+jae c2;si es mayor a 10 lo convertimos a letra sino a numero
+call numero
+jmp f2
+c2:
+call letra
+f2:
+mov digito1,dl
+;fin de la conversion
+
+
+
+
+
+mov dl,digito3;Imprimimos el digito mas significativo
+call imprime_caracter
+mov dl,digito2; Imprimimos el segundo digito
+call imprime_caracter
+mov dl,digito1;imprime el ultimo digito
+call imprime_caracter
+mov ax,4c00h
+int 21h
+
+
+
+
+
+imprime_caracter proc
+mov ah,02h
+int 21h
+ret
+endp
+
+numero proc ;procedimiento que convierte los numeros a Ascci
+add dl,30h
+ret
+endp
+
+letra proc ;Prodcedimiento que convierte las letras a ascci
+add dl,55d
+ret
+endp
+
+
+
+; [SOURCE]: C:\Users\Juan\Desktop\Proyecto.asm

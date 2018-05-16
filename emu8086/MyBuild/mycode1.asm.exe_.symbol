@@ -1,0 +1,78 @@
+< THE SYMBOL TABLE >  mycode1.asm.exe_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00010     	-5        	SEGMENT   	(ITSELF)  
+MSG1                     	00000     	1         	VAR       	data      
+MSG2                     	00035     	1         	VAR       	data      
+MSG3                     	0003D     	1         	VAR       	data      
+MSG4                     	0006F     	1         	VAR       	data      
+MSG5                     	000B1     	1         	VAR       	data      
+MSG6                     	000D1     	1         	VAR       	data      
+MSG7                     	000E2     	1         	VAR       	data      
+MSG8                     	000F3     	1         	VAR       	data      
+MSG9                     	0011E     	1         	VAR       	data      
+MSG10                    	0013D     	1         	VAR       	data      
+MSG11                    	00166     	1         	VAR       	data      
+Q1                       	0018D     	1         	VAR       	data      
+QA1                      	00196     	1         	VAR       	data      
+Q2                       	001AE     	1         	VAR       	data      
+QA2                      	001B7     	1         	VAR       	data      
+Q3                       	001D2     	1         	VAR       	data      
+QA3                      	001DD     	1         	VAR       	data      
+Q4                       	001F5     	1         	VAR       	data      
+QA4                      	001FE     	1         	VAR       	data      
+Q5                       	00219     	1         	VAR       	data      
+QA5                      	00222     	1         	VAR       	data      
+Q6                       	0023B     	1         	VAR       	data      
+QA6                      	00244     	1         	VAR       	data      
+Q7                       	0025E     	1         	VAR       	data      
+QA7                      	00268     	1         	VAR       	data      
+Q8                       	00283     	1         	VAR       	data      
+QA8                      	0028C     	1         	VAR       	data      
+Q9                       	002A7     	1         	VAR       	data      
+QA9                      	002B2     	1         	VAR       	data      
+Q10                      	002CD     	1         	VAR       	data      
+QA10                     	002D8     	1         	VAR       	data      
+CODE                     	0003F     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	NEAR      	code      
+START                    	0002A     	-1        	LABEL     	code      
+QSN1                     	00040     	-1        	LABEL     	code      
+QSN2                     	00061     	-1        	LABEL     	code      
+QSNW2                    	0007C     	-1        	LABEL     	code      
+QSN3                     	00097     	-1        	LABEL     	code      
+QSNW3                    	000B2     	-1        	LABEL     	code      
+QSN4                     	000CD     	-1        	LABEL     	code      
+QSNW4                    	000E8     	-1        	LABEL     	code      
+QSN5                     	00103     	-1        	LABEL     	code      
+QSNW5                    	0011E     	-1        	LABEL     	code      
+QSN6                     	00139     	-1        	LABEL     	code      
+QSNW6                    	00154     	-1        	LABEL     	code      
+QSN7                     	0016F     	-1        	LABEL     	code      
+QSNW7                    	0018A     	-1        	LABEL     	code      
+QSN8                     	001A5     	-1        	LABEL     	code      
+QSNW8                    	001C0     	-1        	LABEL     	code      
+QSN9                     	001DB     	-1        	LABEL     	code      
+QSNW9                    	001F6     	-1        	LABEL     	code      
+QSN10                    	00211     	-1        	LABEL     	code      
+QSNW10                   	0022C     	-1        	LABEL     	code      
+EXIT                     	00247     	-1        	LABEL     	code      
+EXITW                    	0027B     	-1        	LABEL     	code      
+TEN                      	002AD     	-1        	LABEL     	code      
+NL                       	002BA     	-1        	LABEL     	code      
+QN2                      	002C5     	-1        	LABEL     	code      
+QN3                      	002D7     	-1        	LABEL     	code      
+QN4                      	002E9     	-1        	LABEL     	code      
+QN5                      	002FB     	-1        	LABEL     	code      
+QN6                      	0030D     	-1        	LABEL     	code      
+QN7                      	0031F     	-1        	LABEL     	code      
+QN8                      	00331     	-1        	LABEL     	code      
+QN9                      	00343     	-1        	LABEL     	code      
+QN10                     	00355     	-1        	LABEL     	code      
+INPUT                    	00367     	-1        	LABEL     	code      
+EXIT1                    	0036F     	-1        	LABEL     	code      
+===================================================================================================
+[ 9/02/2018  --  2:41:15 p.m. ] 
+< END >
+ 

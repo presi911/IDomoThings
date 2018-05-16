@@ -1,0 +1,481 @@
+
+; You may customize this and other start-up templates;
+; The location of this template is c:\emu8086\inc\0_com_template.txt
+
+include emu8086.inc
+org 100h
+
+menu:
+mov ah,00h
+mov al,03h
+int 10h
+
+.model small
+.stack
+.data
+retorno db 13,10,'$'
+cadena1 db 'Menu de operaciones$'
+cadena2 db '1-Llenar matriz$'
+cadena3 db '2-Restar matriz$'
+cadena4 db '3-Multiplicar por escalar$'
+cadena5 db '4-Sumar matriz$'
+cadena6 db '5-Dividir por escalar$'
+cadena7 db '6-Diagonal principal matriz A$'
+cadena8 db '7-Diagonal inversa matriz B$'
+cadena9 db '8-Salir$'
+cadena10 db  13,10,'FIN'
+
+jmp matrices
+
+ma db ?,?,?
+db ?,?,?
+db ?,?,?
+
+mat db ?,?,?
+db ?,?,?
+db ?,?,?
+
+matrices:
+
+.code
+.startup
+
+mov ah,02h
+mov dh,5h
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena1]
+int 21h
+
+mov ah,02h
+mov dh,6h
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena2]
+int 21h
+
+mov ah,02h
+mov dh,7h
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena3]
+int 21h
+
+mov ah,02h
+mov dh,8h
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena4]
+int 21h
+
+mov ah,02h
+mov dh,9h
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena5]
+int 21h
+
+mov ah,02h
+mov dh,0Ah
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena6]
+int 21h
+
+mov ah,02h
+mov dh,0Bh
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena7]
+int 21h
+
+mov ah,02h
+mov dh,0Ch
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena8]
+int 21h
+
+mov ah,02h
+mov dh,0Dh
+mov dl,10h
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena9]
+int 21h
+
+mov ah,02h
+mov dh,0Eh
+mov dl,10h
+mov bh,0
+int 10h
+
+;mov ah,09h
+;mov dx,offset[cadena10]
+;int 21h
+
+mov ah,1
+int 21h
+
+cmp al,31h
+je  etiqueta1
+
+cmp al,32h
+je  etiqueta2
+
+cmp al,33h
+je  etiqueta3
+
+cmp al,34h
+je  etiqueta4
+
+cmp al,35h
+je  etiqueta5
+
+cmp al,36h
+je  etiqueta6
+
+cmp al,37h
+je  etiqueta7
+
+cmp al,38h
+je  etiqueta8
+
+.exit
+
+etiqueta1:
+mov ah,00h
+mov al,03h
+int 10h
+
+call pthis
+db 13,10,'Ingrese la matriz A:',13,10,0
+lea bp,ma
+mov si,0
+
+buscar:
+cmp si,9
+
+je matriz2
+
+llenado1:
+call SCAN_NUM
+mov [bp+0],cl
+inc bp
+inc si
+
+jmp buscar
+
+matriz2:
+call pthis
+db 13,10,'Ingrese la matriz B:',13,10,0
+lea bx,mat
+mov si,0
+
+buscar2:
+cmp si,9
+;mov ah,00h
+;mov al,03h
+;int 10h
+
+je menu
+
+llenar2:
+call SCAN_NUM
+mov [bx+0],cl
+inc bx
+inc si
+jmp buscar2
+
+DEFINE_SCAN_NUM
+DEFINE_PRINT_NUM_UNS
+DEFINE_PTHIS
+
+.exit
+
+etiqueta2:
+mov ah,00h
+mov al,03h
+int 10h
+
+resta:
+gotoxy 13,8
+print 'la resta es:'
+
+lea bp,ma
+lea bx,mat
+mov si,0
+res:
+cmp si,9
+je menu
+
+rest:
+mov ax,0h
+mov ax,[bp+0]
+sub ax,[bx+0]
+mov ah,0
+call print_num_uns
+inc si
+inc bx
+inc bp
+jmp res
+
+mov ah,00h
+mov al,03h
+int 10h
+
+.exit
+
+etiqueta3:
+mov ah,00h
+mov al,03h
+int 10h
+
+gotoxy 13,8
+print 'Ingrese el escalar:'
+
+mov ah,01h
+int 21h
+sub al,30h
+mov dl,al
+lea bp,mat
+mov si,0
+mov cx,9
+mov ax,0
+
+gotoxy 13,9
+
+print 'La multiplicacion es:'
+
+s2:
+putc ' '
+mov al,[bp+si]
+mul dl
+call print_num
+mov ax,0
+inc si
+loop s2
+mov ah,00h
+mov al,03h
+int 10h
+
+jmp menu
+
+DEFINE_PRINT_NUM
+
+.exit
+
+
+
+
+etiqueta4:
+mov ah,00h
+mov al,03h
+int 10h
+
+suma:
+gotoxy 13,8
+print 'La suma es:'
+
+lea bp,ma
+lea bx,mat
+mov si,0
+sum:
+cmp si,9
+je menu
+
+sum1:
+mov ax,0h
+mov ax,[bp+0]
+add ax,[bx+0]
+mov ah,0
+call print_num_uns
+inc si
+inc bx
+inc bp
+jmp sum
+
+mov ah,00h
+mov al,03h
+int 10h
+
+jmp menu
+
+.exit
+
+
+etiqueta5:
+mov ah,00h
+mov al,03h
+int 10h
+
+gotoxy 13,8
+print 'Inserte escalar:'
+mov ah,01h
+int 21h
+sub al,30h
+mov dl,al
+lea bp,mat
+mov si,0
+mov cx,9
+mov ax,0
+
+gotoxy 13,9
+print 'La division es:'
+
+d2:
+putc ' '
+mov al,[bp+si]
+div dl
+call print_num
+mov ax,0
+inc si
+loop d2
+mov ah,00h
+mov al,03h
+int 10h
+
+jmp menu
+
+.exit
+
+etiqueta6:
+mov ah,00h
+mov al,03h
+int 10h
+
+lea bp,ma
+mov si,0
+mov cx,0
+mov ax,0
+mov al,bp[]
+print 'La diagonal es:'
+print ' '
+call print_num
+mov al,bp[4]
+print ' '
+mov al,bp[8]
+call print_num
+printn '  '
+printn '  '
+print 'Pulse cualquier tecla para finalizar'
+mov ah,0h
+;mov al,03h
+int 16h ;16h
+
+jmp menu
+
+.exit
+
+etiqueta7:
+
+mov ah,00h
+mov al,03h
+int 10h
+
+lea bp,mat
+mov si,0
+mov cx,9
+mov ax,0
+mov al,bp[2]
+print 'La diagonal es:'
+print ' '
+call print_num
+print ' '
+mov al,bp[6]
+call print_num
+
+printn '  '
+printn '  '
+print 'Pulse cualquier tecla para salir'
+mov ah,0h
+int 16h
+
+jmp menu
+
+.exit
+
+etiqueta8:
+
+mov ah,00h
+mov al,03h
+int 10h
+
+mov ah,02h
+mov dl,38 ;h
+mov dh,11
+mov bh,0
+int 10h
+
+mov ah,09h
+mov dx,offset[cadena10]
+int 21h
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

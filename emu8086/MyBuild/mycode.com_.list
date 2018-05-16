@@ -1,0 +1,213 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+mycode.com_ -- emu8086 assembler version: 4.08  
+ 
+[ 10/02/2018  --  11:18:04 a.m. ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       
+[   2]        :                                       ; You may customize this and other start-up templates;
+[   3]        :                                       ; The location of this template is c:\emu8086\inc\0_com_template.txt
+[   4]        :                                       .model tiny
+[   5]    0100:                                       .code
+[   6]        :                                       org 100h
+[   7]        :                                       
+[   8]        :                                       ;
+[   9]        :                                       ; PIANO.ASM  [ - For DOS - ]
+[  10]        :                                       ; Simple PC Speaker Piano Keyboard
+[  11]        :                                       ; Freeware from Evenbit
+[  12]        :                                       ;
+[  13]        :                                       ;
+[  14]        :                                       
+[  15]        :                                       
+[  16]        :                                       
+[  17]        :                                       
+[  18]        :                                       
+[  19]    0100: EB 02                                 main: jmp start
+[  20]        :                                       ;
+[  21]    0102: 00 00                                 stor    dw      0               ;our memory location storage
+[  22]        :                                       ;
+[  23]        :                                       ; Turn the cursor off.
+[  24]        :                                       ;
+[  25]    0104:                                       start:
+[  26]    0104: E8 A9 00                              call    curs_off        ;go turn off cursor
+[  27]        :                                       ;
+[  28]        :                                       ; Get a keypress from the user, and act accordingly.
+[  29]        :                                       ; (We're checking U.S. keyboard scan codes here.)
+[  30]        :                                       ;
+[  31]    0107:                                       get_key:
+[  32]    0107: B4 01                                 mov ah,01
+[  33]    0109: CD 21                                 int 21h            ;call ROM BIOS keyboard services
+[  34]    010B: 3C 31                                 cmp     al,"1"            ;ESC key pressed?
+[  35]    010D: 74 2A                                 je      exit            ;yes, so go exit
+[  36]    010F: 3C 32                                 cmp     al,"2"
+[  37]    0111: 74 2B                                 je      tone_1
+[  38]    0113: 3C 33                                 cmp     al,"3"
+[  39]    0115: 74 32                                 je      tone_2
+[  40]    0117: 3C 34                                 cmp     al,"4"
+[  41]    0119: 74 39                                 je      tone_3
+[  42]    011B: 3C 35                                 cmp     al,"5"
+[  43]    011D: 74 40                                 je      tone_4
+[  44]    011F: 3C 36                                 cmp     al,"6"
+[  45]    0121: 74 47                                 je      tone_5
+[  46]    0123: 3C 37                                 cmp     al,"7"
+[  47]    0125: 74 4E                                 je      tone_6
+[  48]    0127: 3C 38                                 cmp     al,"8"
+[  49]    0129: 74 55                                 je      tone_7
+[  50]    012B: 3C 39                                 cmp     al,"9"
+[  51]    012D: 74 5D                                 je      tone_8
+[  52]    012F: 3C 61                                 cmp     al,"a"
+[  53]    0131: 74 65                                 je      tone_9
+[  54]    0133: 3C 62                                 cmp     al,"b"
+[  55]    0135: 74 6D                                 je      tone_0
+[  56]        :                                       ;
+[  57]    0137: EB CE                                 jmp     get_key         ;go get another keypress
+[  58]        :                                       ;
+[  59]    0139:                                       exit:
+[  60]    0139: E8 7B 00                              call    curs_on         ;go turn cursor on
+[  61]    013C: CD 20                                 int     20h             ;exit to DOS
+[  62]        :                                       ;
+[  63]    013E:                                       tone_1:
+[  64]    013E: B8 10 01                              mov     ax, 272
+[  65]    0141: A3 02 01                              mov     stor, ax
+[  66]    0144: E8 78 00                              call    sounder         ;go generate the tone
+[  67]    0147: EB BE                                 jmp     get_key         ;go get another keypress
+[  68]    0149:                                       tone_2:
+[  69]    0149: B8 26 01                              mov     ax, 294
+[  70]    014C: A3 02 01                              mov     stor, ax
+[  71]    014F: E8 6D 00                              call    sounder         ;go generate the tone
+[  72]    0152: EB B3                                 jmp     get_key         ;go get another keypress
+[  73]    0154:                                       tone_3:
+[  74]    0154: B8 3A 01                              mov     ax, 314
+[  75]    0157: A3 02 01                              mov     stor, ax
+[  76]    015A: E8 62 00                              call    sounder         ;go generate the tone
+[  77]    015D: EB A8                                 jmp     get_key         ;go get another keypress
+[  78]    015F:                                       tone_4:
+[  79]    015F: B8 4A 01                              mov     ax, 330
+[  80]    0162: A3 02 01                              mov     stor, ax
+[  81]    0165: E8 57 00                              call    sounder         ;go generate the tone
+[  82]    0168: EB 9D                                 jmp     get_key         ;go get another keypress
+[  83]    016A:                                       tone_5:
+[  84]    016A: B8 5E 01                              mov     ax, 350
+[  85]    016D: A3 02 01                              mov     stor, ax
+[  86]    0170: E8 4C 00                              call    sounder         ;go generate the tone
+[  87]    0173: EB 92                                 jmp     get_key         ;go get another keypress
+[  88]    0175:                                       tone_6:
+[  89]    0175: B8 72 01                              mov     ax, 370
+[  90]    0178: A3 02 01                              mov     stor, ax
+[  91]    017B: E8 41 00                              call    sounder         ;go generate the tone
+[  92]    017E: EB 87                                 jmp     get_key         ;go get another keypress
+[  93]    0180:                                       tone_7:
+[  94]    0180: B8 88 01                              mov     ax, 392
+[  95]    0183: A3 02 01                              mov     stor, ax
+[  96]    0186: E8 36 00                              call    sounder         ;go generate the tone
+[  97]    0189: E9 7B FF                              jmp     get_key         ;go get another keypress
+[  98]    018C:                                       tone_8:
+[  99]    018C: B8 A3 01                              mov     ax, 419
+[ 100]    018F: A3 02 01                              mov     stor, ax
+[ 101]    0192: E8 2A 00                              call    sounder         ;go generate the tone
+[ 102]    0195: E9 6F FF                              jmp     get_key         ;go get another keypress
+[ 103]    0198:                                       tone_9:
+[ 104]    0198: B8 B8 01                              mov     ax, 440
+[ 105]    019B: A3 02 01                              mov     stor, ax
+[ 106]    019E: E8 1E 00                              call    sounder         ;go generate the tone
+[ 107]    01A1: E9 63 FF                              jmp     get_key         ;go get another keypress
+[ 108]    01A4:                                       tone_0:
+[ 109]    01A4: B8 DB 01                              mov     ax, 475
+[ 110]    01A7: A3 02 01                              mov     stor, ax
+[ 111]    01AA: E8 12 00                              call    sounder         ;go generate the tone
+[ 112]    01AD: E9 57 FF                              jmp     get_key         ;go get another keypress
+[ 113]        :                                       
+[ 114]        :                                       
+[ 115]        :                                       
+[ 116]        :                                       ;
+[ 117]        :                                       ;****************************************
+[ 118]        :                                       ; Our sub-routines start here.
+[ 119]        :                                       ;****************************************
+[ 120]        :                                       ;
+[ 121]        :                                       ; Turn cursor off.
+[ 122]        :                                       ;
+[ 123]    01B0:                                       curs_off:
+[ 124]    01B0: B5 10                                 mov     ch,10h          ;set bits to turn cursor off
+[ 125]    01B2: B4 01                                 mov     ah,1            ;function 1 - cursor control
+[ 126]    01B4: CD 10                                 int     10h             ;call ROM BIOS video services
+[ 127]    01B6: C3                                    ret                     ;return to caller
+[ 128]        :                                       ;
+[ 129]        :                                       ; Turn cursor on.
+[ 130]        :                                       ;
+[ 131]    01B7:                                       curs_on:
+[ 132]    01B7: B9 06 05                              mov     cx,0506h        ;set bits to turn cursor on
+[ 133]    01BA: B4 01                                 mov     ah,1            ;function 1 - cursor control
+[ 134]    01BC: CD 10                                 int     10h             ;call ROM BIOS video services
+[ 135]    01BE: C3                                    ret                     ;return to caller
+[ 136]        :                                       ;
+[ 137]        :                                       ; Generate sound through the PC speaker.
+[ 138]        :                                       ;
+[ 139]        :                                       
+[ 140]    01BF:                                       sounder:
+[ 141]    01BF: B0 B6                                 mov     al,10110110b    ;load control word
+[ 142]    01C1: E6 43                                 out     43h,al          ;send it
+[ 143]    01C3: A1 02 01                              mov     ax,stor         ;tone frequency
+[ 144]    01C6: E6 42                                 out     42h,al          ;send LSB
+[ 145]    01C8: 8A C4                                 mov     al,ah           ;move MSB to AL
+[ 146]    01CA: E6 42                                 out     42h,al          ;save it
+[ 147]    01CC: E4 61                                 in      al,61h          ;get port 61 state
+[ 148]    01CE: 0C 03                                 or      al,00000011b   ;turn on speaker
+[ 149]    01D0: E6 61                                 out     61h,al          ;speaker on now
+[ 150]    01D2: E8 08 00                              call    delay           ;go pause a little bit
+[ 151]    01D5: 24 FC                                 and     al,11111100b   ;clear speaker enable
+[ 152]    01D7: E6 61                                 out     61h,al          ;speaker off now
+[ 153]    01D9: E8 11 00                              call    clr_keyb        ;go clear the keyboard buffer
+[ 154]    01DC: C3                                    ret                     ;return to caller
+[ 155]        :                                       
+[ 156]    01DD:                                       delay:
+[ 157]    01DD: B4 00                                 mov     ah,00h          ;function 0 - get system timer tick
+[ 158]    01DF: CD 1A                                 int     01Ah            ;call ROM BIOS time-of-day services
+[ 159]    01E1: 83 C2 04                              add     dx,4            ;add our delay value to DX
+[ 160]    01E4: 8B DA                                 mov     bx,dx           ;store result in BX
+[ 161]    01E6:                                       pozz:
+[ 162]    01E6: CD 1A                                 int     01Ah            ;call ROM BIOS time-of-day services
+[ 163]    01E8: 3B D3                                 cmp     dx,bx           ;has the delay duration passed?
+[ 164]    01EA: 7C FA                                 jl      pozz            ;no, so go check again
+[ 165]    01EC: C3                                    ret                     ;return to caller
+[ 166]        :                                       ;
+[ 167]        :                                       ; Clear the keyboard buffer.
+[ 168]        :                                       ;
+[ 169]    01ED:                                       clr_keyb:
+[ 170]    01ED: 06                                    push    es              ;preserve ES
+[ 171]    01EE: 57                                    push    di              ;preserve DI
+[ 172]    01EF: B8 40 00                              mov     ax,40h          ;BIOS segment in AX
+[ 173]    01F2: 8E C0                                 mov     es,ax           ;transfer to ES
+[ 174]    01F4: B8 1A 00                              mov     ax,1Ah          ;keyboard head pointer in AX
+[ 175]    01F7: 8B F8                                 mov     di,ax           ;transfer to DI
+[ 176]    01F9: B8 1E 00                              mov     ax,1Eh          ;keyboard buffer start in AX
+[ 177]    01FC: 26 89 05                              mov     es: word ptr [di],ax   ;transfer to head pointer
+[ 178]    01FF: 47                                    inc     di              ;bump pointer to...
+[ 179]    0200: 47                                    inc     di              ;...keyboard tail pointer
+[ 180]    0201: 26 89 05                              mov     es: word ptr [di],ax   ;transfer to tail pointer
+[ 181]    0204: 5F                                    pop     di              ;restore DI
+[ 182]    0205: 07                                    pop     es              ;restore ES
+[ 183]    0206: C3                                    ret                     ;return to caller
+[ 184]        :                                       ;
+[ 185]        :                                       end main
+[ 186]        :                                       end
+[ 187]        :                                       61H, AL
+[ 188]        :                                       
+[ 189]        :                                       ret
+[ 190]        :                                       
+[ 191]        :                                       
+[ 192]        :                                       
+[ 193]        :                                       
+[ 194]        :                                       
+[ 195]        :                                       
+ 
+===================================================================================================
+ 
+
+
+
+
+===================================================================================================

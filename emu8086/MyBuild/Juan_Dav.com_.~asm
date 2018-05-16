@@ -1,0 +1,226 @@
+name 'Juan David Moreno---Mateo Ospina'
+include 'emu8086.inc'
+org 100h
+Arreglo1 db 9 dup (0)
+Arreglo2 db 9 dup (0)
+iniciar:
+mov si,0
+printn 'operaciones con matrices'
+printn ' '
+printn 'Numeros primera Matriz: '
+printn ''
+
+call inicio
+inicio proc
+call matriz1
+call matriz2
+call menu
+call suma
+call resta
+call mult
+call division
+call diagonalP
+call diagonalS
+call salir
+ret
+inicio endp
+hlt
+matriz1 proc
+
+call scan_num
+printn ''
+mov Arreglo1[si],cl
+printn ''
+inc si
+cmp si,9
+jne matriz1
+mov si,1
+mov bx,0
+
+mov ah,00h     ;limpia pantalla
+mov al,03h
+int 10h
+
+matriz1 endp
+
+mov si,0
+printn 'Numeros segunda Matriz: '
+printn ''
+
+matriz2 proc
+
+call scan_num
+printn ''
+mov Arreglo2[si],cl
+printn ''
+inc si
+cmp si,9
+jne matriz2
+mov si,1
+mov bx,0
+
+mov ah,00h     ;limpia pantalla
+mov al,03h
+int 10h
+
+matriz2 endp
+
+menu proc
+
+printn ''
+printn ' Menu Matricial'
+printn '   '
+printn '1.-Suma'
+printn '2.-Resta'
+printn '3.-Multiplicacion'
+printn '4.-Division'
+printn '5.-Suma diagonal principal'
+printn '6.-Suma diagonal secundaria'
+printn '7.-Salir'
+printn ' '
+printn 'Opciones'
+
+call scan_num
+printn ''
+mov bx,cx
+cmp bx,1
+je call suma
+cmp bx,2
+je call resta
+cmp bx,3
+je call mult
+cmp bx,4
+je call division
+cmp bx,5
+je call diagonalP
+cmp bx,6
+je call diagonalS
+cmp bx,7
+je call salir
+jmp menu
+
+menu endp
+
+suma:
+mov si,0
+printn 'La suma es: '
+printn ''
+sumar proc
+mov al, Arreglo1[si]
+mov bl, Arreglo2[si]
+add al,bl
+printn ''
+call print_num
+inc si
+cmp si,9
+jne sumar
+jmp call menu
+ret
+sumar endp
+
+resta:
+mov si,0
+printn 'La resta es: '
+printn ''
+restar proc
+mov al, Arreglo1[si]
+mov bl, Arreglo2[si]
+sub al,bl
+printn ''
+call print_num
+inc si
+cmp si,9
+jne restar
+jmp call menu
+ret
+restar endp
+
+mult:
+mov si,0
+printn 'La multiplicacion es: '
+printn ''
+multi proc
+mov dl, Arreglo1[si]
+mov bl, Arreglo2[si]
+mul dl
+printn ''
+call print_num
+inc si
+cmp si,9
+jne multi
+jmp call menu
+ret
+multi endp
+
+division:
+mov si,0
+printn 'La division es: '
+printn ''
+division1 proc
+mov al, Arreglo1[si]
+mov bl, Arreglo2[si]
+div bl
+printn ''
+call print_num
+inc si
+cmp si,9
+jne division1
+jmp call menu
+ret
+division1 endp
+
+diagonalP:
+mov si,0
+printn 'La suma de la diagonal principal es: '
+printn ''
+diagonalP1 proc
+mov al, Arreglo1[si]
+add si,4
+mov bl, Arreglo1[si]
+add al,bl
+add si,4
+mov bl,Arreglo1[si]
+add al,bl
+printn ''
+call print_num
+printn ''
+jmp call menu
+ret
+diagonalP1 endp
+
+
+diagonalS:
+mov si,0
+printn 'La suma de la diagonal secundaria es: '
+printn ''
+diagonalS1 proc
+add si,1
+mov al, Arreglo2[si]
+add si,1
+mov bl, Arreglo2[si]
+add al,bl
+add si,1
+mov bl,Arreglo2[si]
+add al,bl
+printn ''
+call print_num
+printn ''
+jmp call menu
+ret
+diagonalS1 endp
+
+salir proc
+mov ah,004ch
+int 21h
+salir endp
+
+define_scan_num
+define_print_string
+define_print_num
+define_print_num_uns
+define_pthis
+end
+
+
+
+; [SOURCE]: C:\Users\Juan\Desktop\ProyectoArq.asm

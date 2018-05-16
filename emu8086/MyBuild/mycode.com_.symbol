@@ -1,0 +1,30 @@
+< THE SYMBOL TABLE >  mycode.com_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+CODE                     	00100     	-1        	LABEL     	(NOSEG)   
+MAIN                     	00100     	-1        	LABEL     	(NOSEG)   
+STOR                     	00102     	2         	VAR       	(NOSEG)   
+START                    	00104     	-1        	LABEL     	(NOSEG)   
+GET_KEY                  	00107     	-1        	LABEL     	(NOSEG)   
+EXIT                     	00139     	-1        	LABEL     	(NOSEG)   
+TONE_1                   	0013E     	-1        	LABEL     	(NOSEG)   
+TONE_2                   	00149     	-1        	LABEL     	(NOSEG)   
+TONE_3                   	00154     	-1        	LABEL     	(NOSEG)   
+TONE_4                   	0015F     	-1        	LABEL     	(NOSEG)   
+TONE_5                   	0016A     	-1        	LABEL     	(NOSEG)   
+TONE_6                   	00175     	-1        	LABEL     	(NOSEG)   
+TONE_7                   	00180     	-1        	LABEL     	(NOSEG)   
+TONE_8                   	0018C     	-1        	LABEL     	(NOSEG)   
+TONE_9                   	00198     	-1        	LABEL     	(NOSEG)   
+TONE_0                   	001A4     	-1        	LABEL     	(NOSEG)   
+CURS_OFF                 	001B0     	-1        	LABEL     	(NOSEG)   
+CURS_ON                  	001B7     	-1        	LABEL     	(NOSEG)   
+SOUNDER                  	001BF     	-1        	LABEL     	(NOSEG)   
+DELAY                    	001DD     	-1        	LABEL     	(NOSEG)   
+POZZ                     	001E6     	-1        	LABEL     	(NOSEG)   
+CLR_KEYB                 	001ED     	-1        	LABEL     	(NOSEG)   
+===================================================================================================
+[ 10/02/2018  --  11:18:04 a.m. ] 
+< END >
+ 

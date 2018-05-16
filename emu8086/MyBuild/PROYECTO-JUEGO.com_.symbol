@@ -1,0 +1,36 @@
+< THE SYMBOL TABLE >  PROYECTO-JUEGO.com_  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+LABEL1                   	00108     	-1        	LABEL     	(NOSEG)   
+LABEL2                   	00130     	-1        	LABEL     	(NOSEG)   
+LABEL3                   	0014F     	-1        	LABEL     	(NOSEG)   
+LABEL5                   	00180     	-1        	LABEL     	(NOSEG)   
+LABEL4                   	00189     	-1        	LABEL     	(NOSEG)   
+BLOQUE2                  	00199     	-1        	LABEL     	(NOSEG)   
+EXIT4                    	0019F     	-1        	LABEL     	(NOSEG)   
+SIGE                     	001A6     	-1        	LABEL     	(NOSEG)   
+LABEL7                   	001A9     	-1        	LABEL     	(NOSEG)   
+EXIT6                    	001B7     	-1        	LABEL     	(NOSEG)   
+TECLADO                  	001C9     	-1        	LABEL     	(NOSEG)   
+EXIT                     	001CB     	-1        	LABEL     	(NOSEG)   
+SALIR                    	001D2     	-1        	LABEL     	(NOSEG)   
+EXIT3                    	001D4     	-1        	LABEL     	(NOSEG)   
+LABELJE1                 	001DB     	-1        	LABEL     	(NOSEG)   
+EXIT1                    	00217     	-1        	LABEL     	(NOSEG)   
+LABELJE2                 	00227     	-1        	LABEL     	(NOSEG)   
+EXIT2                    	00253     	-1        	LABEL     	(NOSEG)   
+MSJ1                     	0026C     	1         	VAR       	(NOSEG)   
+MSJ2                     	0029A     	1         	VAR       	(NOSEG)   
+MSJ3                     	002C8     	1         	VAR       	(NOSEG)   
+MSJ4                     	002F6     	1         	VAR       	(NOSEG)   
+MSJ5                     	00324     	1         	VAR       	(NOSEG)   
+MSJ6                     	00352     	1         	VAR       	(NOSEG)   
+MSJ7                     	00380     	1         	VAR       	(NOSEG)   
+MSJ8                     	003AE     	1         	VAR       	(NOSEG)   
+MSJ9                     	003DC     	1         	VAR       	(NOSEG)   
+MSJ10                    	003DF     	1         	VAR       	(NOSEG)   
+===================================================================================================
+[ 10/02/2018  --  2:59:24 p.m. ] 
+< END >
+ 

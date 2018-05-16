@@ -1,0 +1,595 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+pryfinalarqu.com_ -- emu8086 assembler version: 4.08  
+ 
+[ 12/02/2018  --  10:59:02 a.m. ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       
+[   2]        :                                       ; You may customize this and other start-up templates;
+[   3]        :                                       ; The location of this template is c:\emu8086\inc\0_com_template.txt
+[   4]        :                                       
+[   5]        :                                       include emu8086.inc
+[   6]        :                                       org 100h
+[   7]        :                                       
+[   8]    0100:                                       menu:
+[   9]    0100: B4 00                                 mov ah,00h      ;esta seccion es para limpiar la pantalla
+[  10]    0102: B0 03                                 mov al,03h
+[  11]    0104: CD 10                                 int 10h
+[  12]        :                                       
+[  13]        :                                       .model small
+[  14]        :                                       .stack  ;pila
+[  15]    0106: E9 D1 00                              .data
+[  16]    0109: 0D 0A 24                              retorno db 13,10,'$'
+[  17]    010C: 4D 65 6E 75 20 64 65 20 6F 70 65 72   cadena1 db 'Menu de operaciones$'
+                61 63 69 6F 6E 65 73 24             
+[  18]    0120: 31 2D 4C 6C 65 6E 61 72 20 6D 61 74   cadena2 db '1-Llenar matriz$'
+                72 69 7A 24                         
+[  19]    0130: 32 2D 52 65 73 74 61 72 20 6D 61 74   cadena3 db '2-Restar matriz$'                     ;menu que saldra en pantalla
+                72 69 7A 24                         
+[  20]    0140: 33 2D 4D 75 6C 74 69 70 6C 69 63 61   cadena4 db '3-Multiplicar por escalar$'
+                72 20 70 6F 72 20 65 73 63 61 6C 61 
+                72 24                               
+[  21]    015A: 34 2D 53 75 6D 61 72 20 6D 61 74 72   cadena5 db '4-Sumar matriz$'
+                69 7A 24                            
+[  22]    0169: 35 2D 44 69 76 69 64 69 72 20 70 6F   cadena6 db '5-Dividir por escalar$'
+                72 20 65 73 63 61 6C 61 72 24       
+[  23]    017F: 36 2D 44 69 61 67 6F 6E 61 6C 20 70   cadena7 db '6-Diagonal principal matriz A$'
+                72 69 6E 63 69 70 61 6C 20 6D 61 74 
+                72 69 7A 20 41 24                   
+[  24]    019D: 37 2D 44 69 61 67 6F 6E 61 6C 20 69   cadena8 db '7-Diagonal inversa matriz B$'
+                6E 76 65 72 73 61 20 6D 61 74 72 69 
+                7A 20 42 24                         
+[  25]    01B9: 38 2D 53 61 6C 69 72 24               cadena9 db '8-Salir$'
+[  26]    01C1: 0D 0A 46 49 4E                        cadena10 db  13,10,'FIN'
+[  27]        :                                       
+[  28]    01C6: EB 12                                 jmp matrices
+[  29]        :                                       
+[  30]    01C8: 00 00 00                              ma db ?,?,?
+[  31]    01CB: 00 00 00                              db ?,?,?        ;guarda valores matriz A
+[  32]    01CE: 00 00 00                              db ?,?,?
+[  33]        :                                       
+[  34]    01D1: 00 00 00                              mat db ?,?,?
+[  35]    01D4: 00 00 00                              db ?,?,?        ;guarda valores matriz B
+[  36]    01D7: 00 00 00                              db ?,?,?
+[  37]        :                                       
+[  38]    01DA:                                       matrices:
+[  39]        :                                       
+[  40]    01DA:                                       .code
+[  41]    01DA:                                       .startup
+[  42]        :                                       
+[  43]    01DA: B4 02                                 mov ah,02h
+[  44]    01DC: B6 05                                 mov dh,5h
+[  45]    01DE: B2 10                                 mov dl,10h
+[  46]    01E0: B7 00                                 mov bh,0
+[  47]    01E2: CD 10                                 int 10h
+[  48]        :                                       
+[  49]    01E4: B4 09                                 mov ah,09h
+[  50]    01E6: BA 0C 01                              mov dx,offset[cadena1]  ;guarda toda la cadena en dx
+[  51]    01E9: CD 21                                 int 21h
+[  52]        :                                       
+[  53]    01EB: B4 02                                 mov ah,02h
+[  54]    01ED: B6 06                                 mov dh,6h
+[  55]    01EF: B2 10                                 mov dl,10h
+[  56]    01F1: B7 00                                 mov bh,0
+[  57]    01F3: CD 10                                 int 10h
+[  58]        :                                       
+[  59]    01F5: B4 09                                 mov ah,09h
+[  60]    01F7: BA 20 01                              mov dx,offset[cadena2]
+[  61]    01FA: CD 21                                 int 21h
+[  62]        :                                       
+[  63]    01FC: B4 02                                 mov ah,02h
+[  64]    01FE: B6 07                                 mov dh,7h
+[  65]    0200: B2 10                                 mov dl,10h
+[  66]    0202: B7 00                                 mov bh,0
+[  67]    0204: CD 10                                 int 10h
+[  68]        :                                       
+[  69]    0206: B4 09                                 mov ah,09h
+[  70]    0208: BA 30 01                              mov dx,offset[cadena3]
+[  71]    020B: CD 21                                 int 21h
+[  72]        :                                       
+[  73]    020D: B4 02                                 mov ah,02h
+[  74]    020F: B6 08                                 mov dh,8h
+[  75]    0211: B2 10                                 mov dl,10h
+[  76]    0213: B7 00                                 mov bh,0
+[  77]    0215: CD 10                                 int 10h
+[  78]        :                                       
+[  79]    0217: B4 09                                 mov ah,09h
+[  80]    0219: BA 40 01                              mov dx,offset[cadena4]
+[  81]    021C: CD 21                                 int 21h
+[  82]        :                                       
+[  83]    021E: B4 02                                 mov ah,02h
+[  84]    0220: B6 09                                 mov dh,9h
+[  85]    0222: B2 10                                 mov dl,10h
+[  86]    0224: B7 00                                 mov bh,0
+[  87]    0226: CD 10                                 int 10h
+[  88]        :                                       
+[  89]    0228: B4 09                                 mov ah,09h
+[  90]    022A: BA 5A 01                              mov dx,offset[cadena5]
+[  91]    022D: CD 21                                 int 21h
+[  92]        :                                       
+[  93]    022F: B4 02                                 mov ah,02h
+[  94]    0231: B6 0A                                 mov dh,0Ah
+[  95]    0233: B2 10                                 mov dl,10h
+[  96]    0235: B7 00                                 mov bh,0
+[  97]    0237: CD 10                                 int 10h
+[  98]        :                                       
+[  99]    0239: B4 09                                 mov ah,09h
+[ 100]    023B: BA 69 01                              mov dx,offset[cadena6]
+[ 101]    023E: CD 21                                 int 21h
+[ 102]        :                                       
+[ 103]    0240: B4 02                                 mov ah,02h
+[ 104]    0242: B6 0B                                 mov dh,0Bh
+[ 105]    0244: B2 10                                 mov dl,10h
+[ 106]    0246: B7 00                                 mov bh,0
+[ 107]    0248: CD 10                                 int 10h
+[ 108]        :                                       
+[ 109]    024A: B4 09                                 mov ah,09h
+[ 110]    024C: BA 7F 01                              mov dx,offset[cadena7]
+[ 111]    024F: CD 21                                 int 21h
+[ 112]        :                                       
+[ 113]    0251: B4 02                                 mov ah,02h
+[ 114]    0253: B6 0C                                 mov dh,0Ch
+[ 115]    0255: B2 10                                 mov dl,10h
+[ 116]    0257: B7 00                                 mov bh,0
+[ 117]    0259: CD 10                                 int 10h
+[ 118]        :                                       
+[ 119]    025B: B4 09                                 mov ah,09h
+[ 120]    025D: BA 9D 01                              mov dx,offset[cadena8]
+[ 121]    0260: CD 21                                 int 21h
+[ 122]        :                                       
+[ 123]    0262: B4 02                                 mov ah,02h
+[ 124]    0264: B6 0D                                 mov dh,0Dh
+[ 125]    0266: B2 10                                 mov dl,10h
+[ 126]    0268: B7 00                                 mov bh,0
+[ 127]    026A: CD 10                                 int 10h
+[ 128]        :                                       
+[ 129]    026C: B4 09                                 mov ah,09h
+[ 130]    026E: BA B9 01                              mov dx,offset[cadena9]
+[ 131]    0271: CD 21                                 int 21h
+[ 132]        :                                       
+[ 133]    0273: B4 02                                 mov ah,02h
+[ 134]    0275: B6 0E                                 mov dh,0Eh
+[ 135]    0277: B2 10                                 mov dl,10h
+[ 136]    0279: B7 00                                 mov bh,0
+[ 137]    027B: CD 10                                 int 10h
+[ 138]        :                                       
+[ 139]        :                                       ;mov ah,09h
+[ 140]        :                                       ;mov dx,offset[cadena10]
+[ 141]        :                                       ;int 21h
+[ 142]        :                                       
+[ 143]    027D: B4 01                                 mov ah,1
+[ 144]    027F: CD 21                                 int 21h
+[ 145]        :                                       
+[ 146]    0281: 3C 31                                 cmp al,31h
+[ 147]    0283: 74 36                                 je  etiqueta1      ;para saltar a el procedimiento de etiqueta
+[ 148]        :                                       
+[ 149]    0285: 3C 32                                 cmp al,32h
+[ 150]    0287: 75 03 E9 D7 01                        je  etiqueta2
+[ 151]        :                                       
+[ 152]    028C: 3C 33                                 cmp al,33h
+[ 153]    028E: 75 03 E9 38 02                        je  etiqueta3
+[ 154]        :                                       
+[ 155]    0293: 3C 34                                 cmp al,34h
+[ 156]    0295: 75 03 E9 0E 03                        je  etiqueta4
+[ 157]        :                                       
+[ 158]    029A: 3C 35                                 cmp al,35h
+[ 159]    029C: 75 03 E9 71 03                        je  etiqueta5
+[ 160]        :                                       
+[ 161]    02A1: 3C 36                                 cmp al,36h
+[ 162]    02A3: 75 03 E9 16 04                        je  etiqueta6
+[ 163]        :                                       
+[ 164]    02A8: 3C 37                                 cmp al,37h
+[ 165]    02AA: 75 03 E9 09 05                        je  etiqueta7
+[ 166]        :                                       
+[ 167]    02AF: 3C 38                                 cmp al,38h
+[ 168]    02B1: 75 03 E9 F5 05                        je  etiqueta8
+[ 169]        :                                       
+[ 170]    02B6: B8 00 4C CD 21                        .exit
+[ 171]        :                                       
+[ 172]    02BB:                                       etiqueta1:
+[ 173]    02BB: B4 00                                 mov ah,00h
+[ 174]    02BD: B0 03                                 mov al,03h
+[ 175]    02BF: CD 10                                 int 10h
+[ 176]        :                                       
+[ 177]    02C1: E8 7B 01                              call pthis                                             ;llama pthis de la libreria
+[ 178]    02C4: 0D 0A 49 6E 67 72 65 73 65 20 6C 61   db 13,10,'Ingrese la matriz A:',13,10,0                ;13=CR-retorno 10=LF-linea 0=final de cadena
+                20 6D 61 74 72 69 7A 20 41 3A 0D 0A 
+                00                                  
+[ 179]    02DD: BD C8 01                              lea bp,ma                                              ;lee la matriz A
+[ 180]    02E0: BE 00 00                              mov si,0
+[ 181]        :                                       
+[ 182]    02E3:                                       buscar:
+[ 183]    02E3: 83 FE 09                              cmp si,9           ;para verificar que la matriz tenga 9 elementos
+[ 184]        :                                       
+[ 185]    02E6: 74 0A                                 je matriz2
+[ 186]        :                                       
+[ 187]    02E8:                                       llenado1:
+[ 188]    02E8: E8 3D 00                              call SCAN_NUM
+[ 189]    02EB: 88 4E 00                              mov [bp+0],cl
+[ 190]    02EE: 45                                    inc bp
+[ 191]    02EF: 46                                    inc si
+[ 192]        :                                       
+[ 193]    02F0: EB F1                                 jmp buscar
+[ 194]        :                                       
+[ 195]    02F2:                                       matriz2:
+[ 196]    02F2: E8 4A 01                              call pthis
+[ 197]    02F5: 0D 0A 49 6E 67 72 65 73 65 20 6C 61   db 13,10,'Ingrese la matriz B:',13,10,0
+                20 6D 61 74 72 69 7A 20 42 3A 0D 0A 
+                00                                  
+[ 198]    030E: BB D1 01                              lea bx,mat
+[ 199]    0311: BE 00 00                              mov si,0
+[ 200]        :                                       
+[ 201]    0314:                                       buscar2:
+[ 202]    0314: 83 FE 09                              cmp si,9
+[ 203]        :                                       ;mov ah,00h
+[ 204]        :                                       ;mov al,03h
+[ 205]        :                                       ;int 10h
+[ 206]        :                                       
+[ 207]    0317: 75 03 E9 E4 FD                        je menu
+[ 208]        :                                       
+[ 209]    031C:                                       llenar2:
+[ 210]    031C: E8 09 00                              call SCAN_NUM
+[ 211]    031F: 88 0F                                 mov [bx+0],cl
+[ 212]    0321: 43                                    inc bx
+[ 213]    0322: 46                                    inc si
+[ 214]    0323: EB EF                                 jmp buscar2
+[ 215]        :                                       
+[ 216]    0325: E9 C3 00 52 50 56 B9 00 00 2E C6 06   DEFINE_SCAN_NUM           ;para leer desde teclado
+                E8 03 00 B4 00 CD 16 B4 0E CD 10 3C 
+                2D 74 69 3C 0D 75 03 E9 93 00 3C 08 
+                75 1E BA 00 00 8B C1 2E F7 36 E9 03 
+                8B C8 50 B0 20 B4 0E CD 10 58 50 B0 
+                08 B4 0E CD 10 58 EB CB 3C 30 73 02 
+                EB 04 3C 39 76 1A 50 B0 08 B4 0E CD 
+                10 58 50 B0 20 B4 0E CD 10 58 50 B0 
+                08 B4 0E CD 10 58 EB A7 50 8B C1 2E 
+                F7 26 E9 03 8B C8 58 83 FA 00 75 19 
+                2C 30 B4 00 8B D1 03 C8 72 0A EB 8B 
+                2E C6 06 E8 03 01 EB 83 8B CA BA 00 
+                00 8B C1 2E F7 36 E9 03 8B C8 50 B0 
+                08 B4 0E CD 10 58 50 B0 20 B4 0E CD 
+                10 58 50 B0 08 B4 0E CD 10 58 E9 5A 
+                FF 2E 80 3E E8 03 00 74 02 F7 D9 5E 
+                58 5A C3 00 0A 00                   
+[ 217]    03EB: EB 50 50 53 51 52 B9 01 00 BB 10 27   DEFINE_PRINT_NUM_UNS      ;para imprimir numeros sin signo almacenados en ax
+                3D 00 00 74 32 83 FB 00 74 35 83 F9 
+                00 74 04 3B C3 72 14 B9 00 00 BA 00 
+                00 F7 F3 04 30 50 8A C0 B4 0E CD 10 
+                58 8B C2 50 BA 00 00 8B C3 2E F7 36 
+                3B 04 8B D8 58 EB CE 50 B0 30 B4 0E 
+                CD 10 58 5A 59 5B 58 C3 0A 00       
+[ 218]    043D: EB 1F 2E 89 36 5C 04 5E 50 2E 8A 04   DEFINE_PTHIS              ;para imprimir cadenas que se finalizan con 0
+                46 3C 00 74 06 B4 0E CD 10 EB F2 58 
+                56 2E 8B 36 5C 04 C3 00 00          
+[ 219]        :                                       
+[ 220]    045E: B8 00 4C CD 21                        .exit
+[ 221]        :                                       
+[ 222]    0463:                                       etiqueta2:
+[ 223]    0463: B4 00                                 mov ah,00h
+[ 224]    0465: B0 03                                 mov al,03h
+[ 225]    0467: CD 10                                 int 10h
+[ 226]        :                                       
+[ 227]    0469:                                       resta:
+[ 228]    0469: 50 53 52 B4 02 B6 08 B2 0D B7 00 CD   gotoxy 13,8             ;direcciona el cursor
+                10 5A 5B 58                         
+[ 229]    0479: 50 56 EB 0D 6C 61 20 72 65 73 74 61   print 'la resta es:'
+                20 65 73 3A 00 BE 7D 04 2E 8A 04 3C 
+                00 74 07 46 B4 0E CD 10 EB F2 5E 58 
+                                                    
+[ 230]        :                                       
+[ 231]    049D: BD C8 01                              lea bp,ma
+[ 232]    04A0: BB D1 01                              lea bx,mat             ;lectura de matrices
+[ 233]    04A3: BE 00 00                              mov si,0
+[ 234]    04A6:                                       res:
+[ 235]    04A6: 83 FE 09                              cmp si,9
+[ 236]    04A9: 75 03 E9 52 FC                        je menu
+[ 237]        :                                       
+[ 238]    04AE:                                       rest:
+[ 239]    04AE: B8 00 00                              mov ax,0h
+[ 240]    04B1: 8B 46 00                              mov ax,[bp+0]
+[ 241]    04B4: 2B 07                                 sub ax,[bx+0]      ;resta la pos de la matriz con lo que hay en ax
+[ 242]    04B6: B4 00                                 mov ah,0
+[ 243]    04B8: E8 32 FF                              call print_num_uns
+[ 244]    04BB: 46                                    inc si
+[ 245]    04BC: 43                                    inc bx                 ;aumenta la pos en la matriz
+[ 246]    04BD: 45                                    inc bp
+[ 247]    04BE: EB E6                                 jmp res
+[ 248]        :                                       
+[ 249]    04C0: B4 00                                 mov ah,00h
+[ 250]    04C2: B0 03                                 mov al,03h
+[ 251]    04C4: CD 10                                 int 10h
+[ 252]        :                                       
+[ 253]    04C6: B8 00 4C CD 21                        .exit
+[ 254]        :                                       
+[ 255]    04CB:                                       etiqueta3:
+[ 256]    04CB: B4 00                                 mov ah,00h
+[ 257]    04CD: B0 03                                 mov al,03h
+[ 258]    04CF: CD 10                                 int 10h
+[ 259]        :                                       
+[ 260]    04D1: 50 53 52 B4 02 B6 08 B2 0D B7 00 CD   gotoxy 13,8
+                10 5A 5B 58                         
+[ 261]    04E1: 50 56 EB 14 49 6E 67 72 65 73 65 20   print 'Ingrese el escalar:'
+                65 6C 20 65 73 63 61 6C 61 72 3A 00 
+                BE E5 04 2E 8A 04 3C 00 74 07 46 B4 
+                0E CD 10 EB F2 5E 58                
+[ 262]        :                                       
+[ 263]    050C: B4 01                                 mov ah,01h
+[ 264]    050E: CD 21                                 int 21h
+[ 265]    0510: 2C 30                                 sub al,30h
+[ 266]    0512: 8A D0                                 mov dl,al
+[ 267]    0514: BD D1 01                              lea bp,mat
+[ 268]    0517: BE 00 00                              mov si,0
+[ 269]    051A: B9 09 00                              mov cx,9
+[ 270]    051D: B8 00 00                              mov ax,0
+[ 271]        :                                       
+[ 272]    0520: 50 53 52 B4 02 B6 09 B2 0D B7 00 CD   gotoxy 13,9
+                10 5A 5B 58                         
+[ 273]        :                                       
+[ 274]    0530: 50 56 EB 16 4C 61 20 6D 75 6C 74 69   print 'La multiplicacion es:'
+                70 6C 69 63 61 63 69 6F 6E 20 65 73 
+                3A 00 BE 34 05 2E 8A 04 3C 00 74 07 
+                46 B4 0E CD 10 EB F2 5E 58          
+[ 275]        :                                       
+[ 276]    055D:                                       s2:
+[ 277]    055D: 50 B0 20 B4 0E CD 10 58               putc ' '
+[ 278]    0565: 8A 02                                 mov al,[bp+si]
+[ 279]    0567: F6 E2                                 mul dl
+[ 280]    0569: E8 11 00                              call print_num
+[ 281]    056C: B8 00 00                              mov ax,0
+[ 282]    056F: 46                                    inc si
+[ 283]    0570: E2 EB                                 loop s2
+[ 284]    0572: B4 00                                 mov ah,00h
+[ 285]    0574: B0 03                                 mov al,03h
+[ 286]    0576: CD 10                                 int 10h
+[ 287]        :                                       
+[ 288]    0578: E9 85 FB                              jmp menu           ;para volver a mostrar el menu
+[ 289]        :                                       
+[ 290]    057B: EB 26 52 50 3D 00 00 75 0A 50 B0 30   DEFINE_PRINT_NUM
+                B4 0E CD 10 58 EB 12 3D 00 00 79 0A 
+                F7 D8 50 B0 2D B4 0E CD 10 58 E8 4D 
+                FE 58 5A C3                         
+[ 291]        :                                       
+[ 292]    05A3: B8 00 4C CD 21                        .exit
+[ 293]        :                                       
+[ 294]        :                                       
+[ 295]        :                                       
+[ 296]        :                                       
+[ 297]    05A8:                                       etiqueta4:
+[ 298]    05A8: B4 00                                 mov ah,00h
+[ 299]    05AA: B0 03                                 mov al,03h
+[ 300]    05AC: CD 10                                 int 10h
+[ 301]        :                                       
+[ 302]    05AE:                                       suma:
+[ 303]    05AE: 50 53 52 B4 02 B6 08 B2 0D B7 00 CD   gotoxy 13,8
+                10 5A 5B 58                         
+[ 304]    05BE: 50 56 EB 0C 4C 61 20 73 75 6D 61 20   print 'La suma es:'
+                65 73 3A 00 BE C2 05 2E 8A 04 3C 00 
+                74 07 46 B4 0E CD 10 EB F2 5E 58    
+[ 305]        :                                       
+[ 306]    05E1: BD C8 01                              lea bp,ma
+[ 307]    05E4: BB D1 01                              lea bx,mat
+[ 308]    05E7: BE 00 00                              mov si,0
+[ 309]    05EA:                                       sum:
+[ 310]    05EA: 83 FE 09                              cmp si,9
+[ 311]    05ED: 75 03 E9 0E FB                        je menu
+[ 312]        :                                       
+[ 313]    05F2:                                       sum1:
+[ 314]    05F2: B8 00 00                              mov ax,0h
+[ 315]    05F5: 8B 46 00                              mov ax,[bp+0]
+[ 316]    05F8: 03 07                                 add ax,[bx+0]
+[ 317]    05FA: B4 00                                 mov ah,0
+[ 318]    05FC: E8 EE FD                              call print_num_uns
+[ 319]    05FF: 46                                    inc si
+[ 320]    0600: 43                                    inc bx
+[ 321]    0601: 45                                    inc bp
+[ 322]    0602: EB E6                                 jmp sum
+[ 323]        :                                       
+[ 324]    0604: B4 00                                 mov ah,00h
+[ 325]    0606: B0 03                                 mov al,03h
+[ 326]    0608: CD 10                                 int 10h
+[ 327]        :                                       
+[ 328]    060A: E9 F3 FA                              jmp menu
+[ 329]        :                                       
+[ 330]    060D: B8 00 4C CD 21                        .exit
+[ 331]        :                                       
+[ 332]        :                                       
+[ 333]    0612:                                       etiqueta5:
+[ 334]    0612: B4 00                                 mov ah,00h
+[ 335]    0614: B0 03                                 mov al,03h
+[ 336]    0616: CD 10                                 int 10h
+[ 337]        :                                       
+[ 338]    0618: 50 53 52 B4 02 B6 08 B2 0D B7 00 CD   gotoxy 13,8
+                10 5A 5B 58                         
+[ 339]    0628: 50 56 EB 11 49 6E 73 65 72 74 65 20   print 'Inserte escalar:'
+                65 73 63 61 6C 61 72 3A 00 BE 2C 06 
+                2E 8A 04 3C 00 74 07 46 B4 0E CD 10 
+                EB F2 5E 58                         
+[ 340]    0650: B4 01                                 mov ah,01h
+[ 341]    0652: CD 21                                 int 21h
+[ 342]    0654: 2C 30                                 sub al,30h
+[ 343]    0656: 8A D0                                 mov dl,al
+[ 344]    0658: BD D1 01                              lea bp,mat
+[ 345]    065B: BE 00 00                              mov si,0
+[ 346]    065E: B9 09 00                              mov cx,9        ;para saber donde parar de hacer la operacion
+[ 347]    0661: B8 00 00                              mov ax,0
+[ 348]        :                                       
+[ 349]    0664: 50 53 52 B4 02 B6 09 B2 0D B7 00 CD   gotoxy 13,9
+                10 5A 5B 58                         
+[ 350]    0674: 50 56 EB 10 4C 61 20 64 69 76 69 73   print 'La division es:'
+                69 6F 6E 20 65 73 3A 00 BE 78 06 2E 
+                8A 04 3C 00 74 07 46 B4 0E CD 10 EB 
+                F2 5E 58                            
+[ 351]        :                                       
+[ 352]    069B:                                       d2:
+[ 353]    069B: 50 B0 20 B4 0E CD 10 58               putc ' '
+[ 354]    06A3: 8A 02                                 mov al,[bp+si]
+[ 355]    06A5: F6 F2                                 div dl
+[ 356]    06A7: E8 D3 FE                              call print_num
+[ 357]    06AA: B8 00 00                              mov ax,0
+[ 358]    06AD: 46                                    inc si
+[ 359]    06AE: E2 EB                                 loop d2
+[ 360]    06B0: B4 00                                 mov ah,00h
+[ 361]    06B2: B0 03                                 mov al,03h
+[ 362]    06B4: CD 10                                 int 10h
+[ 363]        :                                       
+[ 364]    06B6: E9 47 FA                              jmp menu
+[ 365]        :                                       
+[ 366]    06B9: B8 00 4C CD 21                        .exit
+[ 367]        :                                       
+[ 368]    06BE:                                       etiqueta6:
+[ 369]    06BE: B4 00                                 mov ah,00h
+[ 370]    06C0: B0 03                                 mov al,03h
+[ 371]    06C2: CD 10                                 int 10h
+[ 372]        :                                       
+[ 373]    06C4: BD C8 01                              lea bp,ma
+[ 374]    06C7: BE 00 00                              mov si,0
+[ 375]    06CA: B9 09 00                              mov cx,9
+[ 376]    06CD: B8 00 00                              mov ax,0
+[ 377]    06D0: 8A 46 00                              mov al,bp[]
+[ 378]    06D3: 50 56 EB 10 4C 61 20 64 69 61 67 6F   print 'La diagonal es:'
+                6E 61 6C 20 65 73 3A 00 BE D7 06 2E 
+                8A 04 3C 00 74 07 46 B4 0E CD 10 EB 
+                F2 5E 58                            
+[ 379]    06FA: 50 56 EB 02 20 00 BE FE 06 2E 8A 04   print ' '
+                3C 00 74 07 46 B4 0E CD 10 EB F2 5E 
+                58                                  
+[ 380]    0713: E8 67 FE                              call print_num
+[ 381]    0716: 8A 46 04                              mov al,bp[4]        ;traer el numero desde esa posicion en la matriz
+[ 382]    0719: 50 56 EB 02 20 00 BE 1D 07 2E 8A 04   print ' '
+                3C 00 74 07 46 B4 0E CD 10 EB F2 5E 
+                58                                  
+[ 383]    0732: 8A 46 08                              mov al,bp[8]
+[ 384]    0735: E8 45 FE                              call print_num
+[ 385]    0738: 50 56 EB 05 20 20 0D 0A 00 BE 3C 07   printn '  '
+                2E 8A 04 3C 00 74 07 46 B4 0E CD 10 
+                EB F2 5E 58                         
+[ 386]    0754: 50 56 EB 05 20 20 0D 0A 00 BE 58 07   printn '  '
+                2E 8A 04 3C 00 74 07 46 B4 0E CD 10 
+                EB F2 5E 58                         
+[ 387]    0770: 50 56 EB 25 50 75 6C 73 65 20 63 75   print 'Pulse cualquier tecla para finalizar'
+                61 6C 71 75 69 65 72 20 74 65 63 6C 
+                61 20 70 61 72 61 20 66 69 6E 61 6C 
+                69 7A 61 72 00 BE 74 07 2E 8A 04 3C 
+                00 74 07 46 B4 0E CD 10 EB F2 5E 58 
+                                                    
+[ 388]    07AC: B4 00                                 mov ah,0h
+[ 389]        :                                       ;mov al,03h
+[ 390]    07AE: CD 16                                 int 16h ;16h
+[ 391]        :                                       
+[ 392]    07B0: E9 4D F9                              jmp menu
+[ 393]        :                                       
+[ 394]    07B3: B8 00 4C CD 21                        .exit
+[ 395]        :                                       
+[ 396]    07B8:                                       etiqueta7:
+[ 397]        :                                       
+[ 398]    07B8: B4 00                                 mov ah,00h
+[ 399]    07BA: B0 03                                 mov al,03h
+[ 400]    07BC: CD 10                                 int 10h
+[ 401]        :                                       
+[ 402]    07BE: BD D1 01                              lea bp,mat
+[ 403]    07C1: BE 00 00                              mov si,0
+[ 404]    07C4: B9 09 00                              mov cx,9
+[ 405]    07C7: B8 00 00                              mov ax,0
+[ 406]    07CA: 8A 46 02                              mov al,bp[2]
+[ 407]    07CD: 50 56 EB 10 4C 61 20 64 69 61 67 6F   print 'La diagonal es:'
+                6E 61 6C 20 65 73 3A 00 BE D1 07 2E 
+                8A 04 3C 00 74 07 46 B4 0E CD 10 EB 
+                F2 5E 58                            
+[ 408]    07F4: 50 56 EB 02 20 00 BE F8 07 2E 8A 04   print ' '
+                3C 00 74 07 46 B4 0E CD 10 EB F2 5E 
+                58                                  
+[ 409]    080D: E8 6D FD                              call print_num
+[ 410]    0810: 50 56 EB 02 20 00 BE 14 08 2E 8A 04   print ' '
+                3C 00 74 07 46 B4 0E CD 10 EB F2 5E 
+                58                                  
+[ 411]    0829: 8A 46 06                              mov al,bp[6]
+[ 412]    082C: E8 4E FD                              call print_num
+[ 413]        :                                       
+[ 414]    082F: 50 56 EB 05 20 20 0D 0A 00 BE 33 08   printn '  '
+                2E 8A 04 3C 00 74 07 46 B4 0E CD 10 
+                EB F2 5E 58                         
+[ 415]    084B: 50 56 EB 05 20 20 0D 0A 00 BE 4F 08   printn '  '
+                2E 8A 04 3C 00 74 07 46 B4 0E CD 10 
+                EB F2 5E 58                         
+[ 416]    0867: 50 56 EB 21 50 75 6C 73 65 20 63 75   print 'Pulse cualquier tecla para salir'
+                61 6C 71 75 69 65 72 20 74 65 63 6C 
+                61 20 70 61 72 61 20 73 61 6C 69 72 
+                00 BE 6B 08 2E 8A 04 3C 00 74 07 46 
+                B4 0E CD 10 EB F2 5E 58             
+[ 417]    089F: B4 00                                 mov ah,0h
+[ 418]    08A1: CD 16                                 int 16h
+[ 419]        :                                       
+[ 420]    08A3: E9 5A F8                              jmp menu
+[ 421]        :                                       
+[ 422]    08A6: B8 00 4C CD 21                        .exit
+[ 423]        :                                       
+[ 424]    08AB:                                       etiqueta8:
+[ 425]        :                                       
+[ 426]    08AB: B4 00                                 mov ah,00h
+[ 427]    08AD: B0 03                                 mov al,03h
+[ 428]    08AF: CD 10                                 int 10h
+[ 429]        :                                       
+[ 430]    08B1: B4 02                                 mov ah,02h
+[ 431]    08B3: B2 26                                 mov dl,38
+[ 432]    08B5: B6 0B                                 mov dh,11
+[ 433]    08B7: B7 00                                 mov bh,0
+[ 434]    08B9: CD 10                                 int 10h
+[ 435]        :                                       
+[ 436]    08BB: B4 09                                 mov ah,09h
+[ 437]    08BD: BA C1 01                              mov dx,offset[cadena10]
+[ 438]    08C0: CD 21                                 int 21h
+[ 439]        :                                       
+[ 440]        :                                       end
+[ 441]        :                                       
+[ 442]        :                                       
+[ 443]        :                                       
+[ 444]        :                                       
+[ 445]        :                                       
+[ 446]        :                                       
+[ 447]        :                                       
+[ 448]        :                                       
+[ 449]        :                                       
+[ 450]        :                                       
+[ 451]        :                                       
+[ 452]        :                                       
+[ 453]        :                                       
+[ 454]        :                                       
+[ 455]        :                                       
+[ 456]        :                                       
+[ 457]        :                                       
+[ 458]        :                                       
+[ 459]        :                                       
+[ 460]        :                                       
+[ 461]        :                                       
+[ 462]        :                                       
+[ 463]        :                                       
+[ 464]        :                                       
+[ 465]        :                                       
+[ 466]        :                                       
+[ 467]        :                                       
+[ 468]        :                                       
+[ 469]        :                                       
+[ 470]        :                                       
+[ 471]        :                                       
+[ 472]        :                                       
+[ 473]        :                                       
+[ 474]        :                                       
+[ 475]        :                                       
+[ 476]        :                                       
+[ 477]        :                                       
+[ 478]        :                                       
+[ 479]        :                                       
+[ 480]        :                                       
+[ 481]        :                                       
+ 
+===================================================================================================
+ 
+
+
+
+
+===================================================================================================
