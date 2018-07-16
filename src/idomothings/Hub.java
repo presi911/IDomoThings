@@ -5,6 +5,7 @@
  */
 package idomothings;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 /**
@@ -16,7 +17,7 @@ public class Hub {
     private double Metros;
     private String propietario;
     private String Sector;
-    LinkedList<Seccion>Secciones=new LinkedList<Seccion>();
+    private LinkedList<Seccion>Secciones=new LinkedList<Seccion>();
     public Hub() {
     }
 
@@ -29,34 +30,45 @@ public class Hub {
 
     public void addSeccion() {
         Seccion s1 = new Seccion("Cocina", 2);
-        Seccion s2 = new Seccion("Alcoba1", 1);
-        Seccion s3 = new Seccion("Alcoba2", 1);
-        Seccion s4 = new Seccion("Terraza", 3);
+        Seccion s2 = new Seccion("Alcoba", 1);
+        Seccion s3 = new Seccion("Comedor", 1);
+        Seccion s4 = new Seccion("Patio", 3);
         Seccion s5 = new Seccion("Sala", 4);
-        Secciones.add(s1);
-        Secciones.add(s2);
-        Secciones.add(s3);
-        Secciones.add(s4);
-        Secciones.add(s5);
-        
+        Seccion s6 = new Seccion("Baño", 4);
+        getSecciones().add(s1);
+        getSecciones().add(s2);
+        getSecciones().add(s3);
+        getSecciones().add(s4);
+        getSecciones().add(s5);
+        getSecciones().add(s6);
 
     }
-    public void addDispositivo(Dispositivo d){
+    
+    public Seccion buscarSeccion(String nombre){
+        Seccion s1=new Seccion();
         for(Seccion s:Secciones){
+            if(nombre.equals(s.getNombre())){
+                s1= s;
+            }
+        }
+        return s1;
+    }
+    public void addDispositivo(Dispositivo d){
+        for(Seccion s:getSecciones()){
             if(d.getUbicacion().equals(s.getNombre()))
                 s.listar_Dispositivo(d);
         }
     }
     
     
-    public void deleteDispositivo(Dispositivo d){
-        for(Seccion s:Secciones){
+    public void deleteDispositivo(Dispositivo d) throws IOException{
+        for(Seccion s:getSecciones()){
             if(d.getUbicacion().equals(s.getNombre()))
-                s.listar_Dispositivo(d);
+                s.borrar_Dispositivo(d);
         }
     }
     public void activarDispsitivo(Dispositivo d){
-        for(Seccion s:Secciones){
+        for(Seccion s:getSecciones()){
             if(d.getUbicacion().equals(s.getNombre()))
                 d.activar();
            // s.listar_Dispositivo(d);
@@ -65,14 +77,14 @@ public class Hub {
     
     }
     public void descativarDsipositivo(Dispositivo d){
-        for(Seccion s:Secciones){
+        for(Seccion s:getSecciones()){
             if(d.getUbicacion().equals(s.getNombre()))
                 d.desactivar();
            // s.listar_Dispositivo(d);
         }
     }
     public void ParametrizarDispositivo(Dispositivo d){
-    for(Seccion s:Secciones){
+    for(Seccion s:getSecciones()){
             if(d.getUbicacion().equals(s.getNombre()))
                 d.parametrizar();
            // s.listar_Dispositivo(d);
@@ -106,5 +118,19 @@ public class Hub {
      */
     public String getSector() {
         return Sector;
+    }
+
+    /**
+     * @return the Secciones
+     */
+    public LinkedList<Seccion> getSecciones() {
+        return Secciones;
+    }
+
+    /**
+     * @param Secciones the Secciones to set
+     */
+    public void setSecciones(LinkedList<Seccion> Secciones) {
+        this.Secciones = Secciones;
     }
 }

@@ -5,6 +5,10 @@
  */
 package interfacegestion;
 
+import idomothings.Hub;
+import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Carolina
@@ -14,8 +18,12 @@ public class uno extends javax.swing.JFrame {
     /**
      * Creates new form uno
      */
+    public static Hub Casa;
+    public static int contador_codigo=0;
     public uno() {
         initComponents();
+        Casa=new Hub();
+       Casa.addSeccion();
     }
 
     /**
@@ -29,24 +37,20 @@ public class uno extends javax.swing.JFrame {
 
         jSeparator2 = new javax.swing.JSeparator();
         btnAgregar = new javax.swing.JButton();
-        btnmarcha = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnParametrizar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
-        btnHome = new javax.swing.JButton();
         pnlPlano = new javax.swing.JPanel();
-        jSpinner1 = new javax.swing.JSpinner();
-        btnAdicionar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstSensores = new javax.swing.JList<>();
         jSeparator4 = new javax.swing.JSeparator();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 204, 204));
 
+        btnAgregar.setFont(new java.awt.Font("Leelawadee UI", 0, 14)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(0, 153, 153));
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,8 +58,8 @@ public class uno extends javax.swing.JFrame {
             }
         });
 
-        btnmarcha.setText("Pausa/Marcha");
-
+        btnEliminar.setFont(new java.awt.Font("Leelawadee UI", 0, 14)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(0, 153, 153));
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,107 +67,92 @@ public class uno extends javax.swing.JFrame {
             }
         });
 
+        btnParametrizar.setFont(new java.awt.Font("Leelawadee UI", 0, 14)); // NOI18N
+        btnParametrizar.setForeground(new java.awt.Color(0, 153, 153));
         btnParametrizar.setText("Parametrizar");
+        btnParametrizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnParametrizarActionPerformed(evt);
+            }
+        });
 
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
         jLabel1.setText("Gestion de Dispositivos");
-
-        btnHome.setText("Home");
-
-        jSpinner1.setModel(new javax.swing.SpinnerListModel(new String[] {"Cocina", "Alcoba", "Sala", "Comedor", "Patio", "Baño"}));
-
-        btnAdicionar.setText("Adicionar");
 
         javax.swing.GroupLayout pnlPlanoLayout = new javax.swing.GroupLayout(pnlPlano);
         pnlPlano.setLayout(pnlPlanoLayout);
         pnlPlanoLayout.setHorizontalGroup(
             pnlPlanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPlanoLayout.createSequentialGroup()
-                .addContainerGap(153, Short.MAX_VALUE)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAdicionar)
-                .addGap(43, 43, 43))
+            .addGap(0, 493, Short.MAX_VALUE)
         );
         pnlPlanoLayout.setVerticalGroup(
             pnlPlanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlPlanoLayout.createSequentialGroup()
-                .addGroup(pnlPlanoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdicionar))
-                .addGap(0, 289, Short.MAX_VALUE))
+            .addGap(0, 344, Short.MAX_VALUE)
         );
 
-        lstSensores.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Climatizacion y Calderas", "Control de Toldos y Persianas", "Control Luces y Panales", "Control de Temperatura", "Detector de Movimiento", "Detector de Incendio", "Acceso a Camaras", "Control de Humedad", " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(lstSensores);
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Samsung", "2crm45d", "10 ''", "10 v"}
-            },
-            new String [] {
-                "Marca", "Serial", "Tamaño", "Consumo"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 856, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 486, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(272, 272, 272)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnHome)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pnlPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
+                        .addGap(242, 242, 242)
+                        .addComponent(pnlPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 169, Short.MAX_VALUE))
+                    .addComponent(jSeparator4)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(btnAgregar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnmarcha)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(45, 45, 45)
                 .addComponent(btnEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(32, 32, 32)
                 .addComponent(btnParametrizar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jSeparator4)
+                .addGap(306, 306, 306))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnHome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(7, 7, 7)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
-                    .addComponent(btnmarcha)
                     .addComponent(btnEliminar)
                     .addComponent(btnParametrizar))
                 .addGap(3, 3, 3)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pnlPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(pnlPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -171,11 +160,33 @@ public class uno extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
+           Add adicionar=new Add();
+           adicionar.setSize(600,600);
+           adicionar.setLocation(5, 5);
+           jPanel2.removeAll();
+           jPanel2.add(adicionar, BorderLayout.CENTER);
+           jPanel2.repaint();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+        Drop PanelEliminar=new Drop();
+        PanelEliminar.setSize(600,600);
+           PanelEliminar.setLocation(10, 13);
+           jPanel2.removeAll();
+           jPanel2.add(PanelEliminar, BorderLayout.CENTER);
+           jPanel2.repaint();
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnParametrizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnParametrizarActionPerformed
+        // TODO add your handling code here:
+        Parameter PanelParametro=new Parameter();
+        PanelParametro.setSize(600,600);
+           PanelParametro.setLocation(10, 13);
+           jPanel2.removeAll();
+           jPanel2.add(PanelParametro, BorderLayout.CENTER);
+           jPanel2.repaint();
+    }//GEN-LAST:event_btnParametrizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,22 +224,15 @@ public class uno extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnHome;
     private javax.swing.JButton btnParametrizar;
-    private javax.swing.JButton btnmarcha;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JList<String> lstSensores;
     private javax.swing.JPanel pnlPlano;
     // End of variables declaration//GEN-END:variables
 }

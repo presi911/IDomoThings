@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Seccion {
     private String nombre;
     private int tope_dispositivo;
-    Lista_dispositivos lista;
+    private Lista_dispositivos lista;
     private int numdisp;
     public Seccion() {
     }
@@ -30,7 +30,7 @@ public class Seccion {
     public void listar_Dispositivo(Dispositivo d){
         try {
              if (numdisp < tope_dispositivo) {
-            lista.Adcionar_dispostivo(d);
+                getLista().Adcionar_dispostivo(d);
             numdisp += 1;
         }
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class Seccion {
         
     }
     public void borrar_Dispositivo(Dispositivo d) throws IOException{
-        lista.eliminar_dispositivo(d);
+        getLista().eliminar_dispositivo(d);
         numdisp=numdisp-1;
     }
 
@@ -63,5 +63,19 @@ public class Seccion {
      */
     public void setTope_dispositivo(int tope_dispositivo) {
         this.tope_dispositivo = tope_dispositivo;
+    }
+
+    /**
+     * @return the lista
+     */
+    public Lista_dispositivos getLista() {
+        return lista;
+    }
+
+    /**
+     * @param lista the lista to set
+     */
+    public void setLista(Lista_dispositivos lista) {
+        this.lista = lista;
     }
 }

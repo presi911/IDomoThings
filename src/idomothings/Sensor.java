@@ -17,7 +17,7 @@ public class Sensor extends Dispositivo{
         if(isEstado())
             return (Math.random()*100+1);
         else
-            return 0;
+            return 10;
     }
     
     
