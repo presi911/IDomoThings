@@ -1,0 +1,7 @@
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\bin\Debug\UnidadResidencial.dll.config
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\bin\Debug\UnidadResidencial.dll
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\bin\Debug\UnidadResidencial.pdb
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\obj\Debug\UnidadResidencial.csprojResolveAssemblyReference.cache
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\obj\Debug\UnidadResidencial.csproj.CoreCompileInputs.cache
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\obj\Debug\UnidadResidencial.dll
+C:\Users\Sebastian\source\repos\UnidadResidencial\UnidadResidencial\obj\Debug\UnidadResidencial.pdb
